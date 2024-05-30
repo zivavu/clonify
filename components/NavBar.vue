@@ -1,12 +1,12 @@
 <script setup>
 import { Icon } from '@iconify/vue';
 import { SIDEBAR_WIDTH } from './consts';
+import { Input } from './ui/input';
 
 const navLinks = [
 	{ icon: 'lucide:library', label: 'My Library', link: '/library' },
 	{ icon: 'fluent:home-32-filled', label: 'Home', link: '/home' },
 	{ icon: 'solar:star-angle-outline', label: 'Discover', link: '/discover' },
-	{ icon: 'ri:search-line', label: 'Search', link: '/search' },
 ];
 
 const rightLinks = [
@@ -18,8 +18,9 @@ const rightLinks = [
 </script>
 
 <template>
-	<nav class="flex items-center justify-between p-4 bg-foreground">
-		<div class="flex">
+	<nav
+		class="flex items-center justify-between px-4 py-2 text-white bg-background">
+		<div class="flex items-center">
 			<NuxtLink
 				v-for="(item, index) in navLinks"
 				:key="index"
@@ -29,6 +30,17 @@ const rightLinks = [
 				<Icon :icon="item.icon" class="text-3xl" />
 				<span>{{ item.label }}</span>
 			</NuxtLink>
+			<div class="relative max-w-sm">
+				<Input
+					id="search"
+					type="text"
+					placeholder="Search..."
+					class="py-6 pl-10 border-none w-80 bg-foreground" />
+				<span
+					class="absolute inset-y-0 flex items-center justify-center px-2 start-0">
+					<Icon icon="ri:search-line" class="text-2xl" />
+				</span>
+			</div>
 		</div>
 		<div class="flex space-x-6">
 			<NuxtLink
