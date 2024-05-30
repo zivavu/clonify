@@ -1,8 +1,8 @@
 <script setup>
 import { Icon } from '@iconify/vue';
+import { SIDEBAR_WIDTH } from './consts';
 
 const sidebarItems = [
-	{ icon: 'lucide:library', label: 'My Library', link: '/library' },
 	{ icon: 'mage:pin', label: 'Pins', link: '/pins' },
 	{ icon: 'hugeicons:playlist-02', label: 'Playlists', link: '/playlists' },
 	{ icon: 'ph:heart', label: 'Liked songs', link: '/liked-songs' },
@@ -20,14 +20,16 @@ const sidebarItems = [
 </script>
 
 <template>
-	<div class="w-64 h-screen text-white">
-		<nav class="flex flex-col gap-4 p-4">
+	<div
+		class="h-screen text-white rounded-xl bg-foreground"
+		:class="`w-${SIDEBAR_WIDTH}`">
+		<nav class="flex flex-col gap-6 p-4">
 			<NuxtLink
 				v-for="(item, index) in sidebarItems"
 				:key="index"
 				:value="item.label"
 				:href="item.link"
-				class="flex items-center w-full px-2 text-gray-300">
+				class="flex items-center w-full px-2 text-gray-300 hover:text-gray-100">
 				<Icon :icon="item.icon" class="mr-2 text-3xl"></Icon>
 				<span>{{ item.label }}</span>
 			</NuxtLink>
