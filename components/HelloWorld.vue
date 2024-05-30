@@ -1,4 +1,3 @@
-<!-- c:\Users\zivavu\Desktop\projekty\clonify\components\HelloWorld.vue -->
 <template>
 	<div>
 		<h1>Hello, World!</h1>

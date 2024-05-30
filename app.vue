@@ -1,6 +1,6 @@
 <template>
 	<div class="flex p-2">
-		<Sider />
+		<Sidebar />
 		<HelloWorld />
 	</div>
 </template>

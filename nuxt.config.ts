@@ -2,8 +2,9 @@ import { defineNuxtConfig } from 'nuxt/config';
 
 export default defineNuxtConfig({
 	devtools: { enabled: true },
-	modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/color-mode'],
+	modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt'],
 	css: ['~/assets/css/tailwind.css'],
+
 	app: {
 		head: {
 			title: 'Cloanify',

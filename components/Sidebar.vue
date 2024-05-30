@@ -2,7 +2,7 @@
 import { Icon } from '@iconify/vue';
 
 const sidebarItems = [
-	{ icon: 'lucide:library', label: 'Library', link: '/library' },
+	{ icon: 'lucide:library', label: 'My Library', link: '/library' },
 	{ icon: 'mage:pin', label: 'Pins', link: '/pins' },
 	{ icon: 'hugeicons:playlist-02', label: 'Playlists', link: '/playlists' },
 	{ icon: 'ph:heart', label: 'Liked songs', link: '/liked-songs' },
