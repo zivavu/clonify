@@ -1,6 +1,6 @@
 <script setup>
 import { Icon } from '@iconify/vue';
-import { SIDEBAR_WIDTH } from './consts';
+import NavLink from '~/components/NavLink.vue';
 import { Input } from './ui/input';
 
 const navLinks = [
@@ -21,15 +21,13 @@ const rightLinks = [
 	<nav
 		class="flex items-center justify-between px-4 py-2 text-white bg-background">
 		<div class="flex items-center">
-			<NuxtLink
+			<NavLink
 				v-for="(item, index) in navLinks"
 				:key="index"
 				:to="item.link"
-				class="flex items-center px-2 space-x-2 text-gray-300 transition hover:text-gray-100"
-				:class="index === 0 ? `w-${SIDEBAR_WIDTH}` : 'mr-20'">
-				<Icon :icon="item.icon" class="text-3xl" />
-				<span>{{ item.label }}</span>
-			</NuxtLink>
+				:icon="item.icon"
+				:label="item.label"
+				:class="index === 0 ? `w-72` : 'mr-20'" />
 			<div class="relative max-w-sm">
 				<Input
 					id="search"
@@ -42,14 +40,14 @@ const rightLinks = [
 				</span>
 			</div>
 		</div>
-		<div class="flex space-x-6">
-			<NuxtLink
+		<div class="flex space-x-4">
+			<NavLink
 				v-for="(item, index) in rightLinks"
+				:showLabel="false"
 				:key="index"
 				:to="item.link"
-				class="flex items-center space-x-2 text-gray-300 transition hover:text-gray-100">
-				<Icon :icon="item.icon" class="text-3xl" />
-			</NuxtLink>
+				:icon="item.icon"
+				:label="item.label" />
 		</div>
 	</nav>
 </template>

@@ -1,6 +1,5 @@
 <script setup>
-import { Icon } from '@iconify/vue';
-import { SIDEBAR_WIDTH } from './consts';
+import NavLink from '~/components/NavLink.vue';
 
 const sidebarItems = [
 	{ icon: 'mage:pin', label: 'Pins', link: '/pins' },
@@ -20,19 +19,14 @@ const sidebarItems = [
 </script>
 
 <template>
-	<div
-		class="h-screen text-white rounded-xl bg-background"
-		:class="`w-${SIDEBAR_WIDTH}`">
+	<div class="h-screen text-white rounded-xl bg-background w-72">
 		<nav class="flex flex-col gap-6 p-4">
-			<NuxtLink
+			<NavLink
 				v-for="(item, index) in sidebarItems"
 				:key="index"
-				:value="item.label"
-				:href="item.link"
-				class="flex items-center w-full px-2 text-gray-300 hover:text-gray-100">
-				<Icon :icon="item.icon" class="mr-2 text-3xl"></Icon>
-				<span class="invisible lg:visible">{{ item.label }}</span>
-			</NuxtLink>
+				:to="item.link"
+				:icon="item.icon"
+				:label="item.label" />
 		</nav>
 	</div>
 </template>
