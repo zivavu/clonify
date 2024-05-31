@@ -25,12 +25,12 @@ const rightLinks = [
 				:to="item.link"
 				:icon="item.icon"
 				:label="item.label"
-				:class="index === 0 ? `w-72` : 'mr-20'" />
+				:class="index === 0 ? `w-64 mr-8` : 'mr-20 px-6'" />
 			<div class="relative max-w-sm">
 				<SearchBar />
 			</div>
 		</div>
-		<div class="flex space-x-4">
+		<div class="flex space-x-0 lg:space-x-4">
 			<NavLink
 				v-for="(item, index) in rightLinks"
 				:showLabel="false"
