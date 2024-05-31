@@ -15,7 +15,8 @@ const performSearch = async (query: string) => {
 		if (error.value) {
 			console.error('Error during search:', error.value);
 		} else {
-			console.log();
+			console.log(data);
+			router.push('/search');
 		}
 	} else {
 		searchResults.value = null;
