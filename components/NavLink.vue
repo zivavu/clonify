@@ -16,11 +16,7 @@ const isActive = computed(() => route.path === props.to);
 	<NuxtLink
 		:to="props.to"
 		class="flex items-center p-2 space-x-2 transition rounded-xl"
-		:class="
-			isActive
-				? 'text-gray-100 bg-gray-900 hover:bg-gray-900'
-				: 'text-gray-300 hover:text-gray-100 hover:bg-gray-900'
-		">
+		:class="isActive ? 'text-gray-100' : 'text-gray-300'">
 		<Icon :icon="props.icon" class="text-3xl" />
 		<span :class="props.showLabel === false ? 'sr-only' : ''">{{
 			props.label

@@ -43,4 +43,10 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+	p {
+		@apply text-gray-50;
+	}
+	span {
+		@apply text-gray-50;
+	}
 }
