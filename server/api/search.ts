@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
 
 	try {
 		const response = await axios.request(options);
-		return response.data;
+		return JSON.parse(JSON.stringify(response.data));
 	} catch (error) {
 		console.error(error);
 		throw createError({

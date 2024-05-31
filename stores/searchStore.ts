@@ -6,9 +6,8 @@ export const useSearchStore = defineStore('search', {
 		results: null as SearchData | null,
 	}),
 	actions: {
-		setResults(data: string) {
-			console.log(data);
-			this.results = JSON.parse(JSON.stringify(data));
+		setResults(data: SearchData) {
+			this.results = data;
 		},
 
 		clearResults() {
