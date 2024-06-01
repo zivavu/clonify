@@ -1,18 +1,18 @@
 <script setup>
 const sidebarItems = [
 	{ icon: 'mage:pin', label: 'Pins', link: '/pins' },
-	{ icon: 'hugeicons:playlist-02', label: 'Playlists', link: '/playlists' },
+	{ icon: 'hugeicons:playlist-02', label: 'Playlists', link: '/playlist' },
 	{ icon: 'ph:heart', label: 'Liked songs', link: '/liked-songs' },
 	{ icon: 'mage:bookmark', label: 'Saves', link: '/saves' },
-	{ icon: 'iconamoon:music-album-light', label: 'Albums', link: '/albums' },
+	{ icon: 'iconamoon:music-album-light', label: 'Albums', link: '/album' },
 	{ icon: 'mynaui:folder', label: 'Folders', link: '/folders' },
 	{
 		icon: 'fluent:book-open-microphone-48-regular',
 		label: 'Podcasts',
-		link: '/podcasts',
+		link: '/podcast',
 	},
-	{ icon: 'hugeicons:book-open-01', label: 'Audiobooks', link: '/audiobooks' },
-	{ icon: 'iconamoon:music-artist-light', label: 'Artists', link: '/artists' },
+	{ icon: 'hugeicons:book-open-01', label: 'Audiobooks', link: '/audiobook' },
+	{ icon: 'iconamoon:music-artist-light', label: 'Artists', link: '/artist' },
 ];
 </script>
 

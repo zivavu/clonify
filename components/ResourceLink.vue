@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import { NuxtLink } from '#components';
+import { defineProps } from 'vue';
 
 const props = defineProps({
 	to: {
@@ -11,18 +11,12 @@ const props = defineProps({
 </script>
 
 <template>
-	<NuxtLink :to="to" class="p-2 rounded cursor-pointer hover:bg-gray-100">
+	<NuxtLink :to="to" class="p-2 rounded hover:bg-neutral-800">
 		<slot />
 	</NuxtLink>
 </template>
 
 <style scoped>
-.hover\:bg-gray-100:hover {
-	background-color: #f7fafc;
-}
-.cursor-pointer {
-	cursor: pointer;
-}
 .p-2 {
 	padding: 0.5rem;
 }

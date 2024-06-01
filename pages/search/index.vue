@@ -12,13 +12,11 @@ const results = computed(() => searchStore.results);
 
 <template>
 	<div>
-		<h1>Search Results</h1>
 		<TopResult v-if="results" />
 		<Tracks v-if="results" />
 		<Artists v-if="results" />
 		<Albums v-if="results" />
 		<Playlists v-if="results" />
-		<!-- Dodaj inne komponenty dla Podcastów, Odcinków, Profilów i Gatunków -->
 
 		<div v-else>No results found.</div>
 	</div>
