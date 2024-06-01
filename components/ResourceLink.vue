@@ -15,12 +15,3 @@ const props = defineProps({
 		<slot />
 	</NuxtLink>
 </template>
-
-<style scoped>
-.p-2 {
-	padding: 0.5rem;
-}
-.rounded {
-	border-radius: 0.375rem;
-}
-</style>

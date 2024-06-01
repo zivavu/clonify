@@ -77,7 +77,7 @@ const toggleRepeat = () => {
 		class="sticky bottom-0 flex items-center justify-between p-4 text-white bg-gray-800 rounded-t-xl">
 		<!-- Track Info -->
 		<div class="flex items-center gap-4">
-			<img
+			<nuxt-img
 				v-if="currentTrack"
 				:src="currentTrack.album.images[0].url"
 				alt="Cover Art"

@@ -18,7 +18,7 @@ const sidebarItems = [
 
 <template>
 	<div class="text-white rounded-xl bg-background w-72">
-		<nav class="flex flex-col gap-6 p-4">
+		<nav class="flex flex-col gap-4 p-4">
 			<NavLink
 				v-for="(item, index) in sidebarItems"
 				:key="index"

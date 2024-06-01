@@ -9,14 +9,14 @@ const topResult = computed(() => searchStore.results?.tracks?.items?.[0]);
 
 <template>
 	<div v-if="topResult" class="relative p-4 top-result">
-		<h2 class="mb-4 text-xl font-bold">Top Result</h2>
+		<h2 class="text-xl font-bold">Top Result</h2>
 		<NuxtLink
 			:to="{
 				name: 'track-uri',
 				params: { uri: encodeURIComponent(topResult.uri) },
 			}"
-			class="relative flex flex-col gap-6 p-4 rounded-lg min-w-96 hover:bg-neutral-800 bg-neutral-950">
-			<img
+			class="relative flex flex-col gap-6 p-4 rounded-lg min-w-96 hover:bg-neutral-900 bg-neutral-950">
+			<nuxt-img
 				:src="topResult.album.images[0]?.url"
 				alt="Cover Art"
 				class="w-24 h-24 rounded" />

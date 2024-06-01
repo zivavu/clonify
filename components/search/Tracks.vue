@@ -4,11 +4,11 @@ import Track from '~/components/Track.vue';
 import { useSearchStore } from '~/stores/searchStore';
 
 const searchStore = useSearchStore();
-const tracks = computed(() => searchStore.results?.tracks?.items.slice(0, 4));
+const tracks = computed(() => searchStore.results?.tracks?.items.slice(1, 5));
 </script>
 
 <template>
-	<div v-if="tracks?.length" class="p-4 mb-4 tracks">
+	<div v-if="tracks?.length" class="w-full p-4 mb-4 min-w-fit">
 		<h2 class="text-lg font-bold">Tracks</h2>
 		<ul>
 			<li v-for="(track, index) in tracks" :key="index">
