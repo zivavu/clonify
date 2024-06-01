@@ -7,6 +7,7 @@ const searchStore = useSearchStore();
 const artists = computed(() =>
 	searchStore.results?.artists?.items.slice(0, 10)
 );
+console.log(artists);
 </script>
 
 <template>
@@ -20,13 +21,10 @@ const artists = computed(() =>
 				<ResourceLink
 					:to="{
 						name: 'artist-uri',
-						params: { uri: encodeURIComponent(artist.data.uri) },
+						params: { uri: encodeURIComponent(artist.uri) },
 					}">
-					<img
-						:src="artist.data.visuals.avatarImage.sources[0].url"
-						alt=""
-						class="w-12 h-12 rounded" />
-					<p>{{ artist.data.profile.name }}</p>
+					<img :src="artist.images[0]?.url" alt="" class="w-12 h-12 rounded" />
+					<p>{{ artist.name }}</p>
 				</ResourceLink>
 			</div>
 		</div>

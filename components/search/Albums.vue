@@ -18,13 +18,10 @@ const albums = computed(() => searchStore.results?.albums?.items.slice(0, 10));
 				<ResourceLink
 					:to="{
 						name: 'album-uri',
-						params: { uri: encodeURIComponent(album.data.uri) },
+						params: { uri: encodeURIComponent(album.uri) },
 					}">
-					<img
-						:src="album.data.coverArt.sources[0].url"
-						alt=""
-						class="w-12 h-12 rounded" />
-					<p>{{ album.data.name }}</p>
+					<img :src="album.images[0]?.url" alt="" class="w-12 h-12 rounded" />
+					<p>{{ album.name }}</p>
 				</ResourceLink>
 			</div>
 		</div>

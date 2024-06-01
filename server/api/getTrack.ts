@@ -1,24 +1,12 @@
-import axios from 'axios';
-import { defineEventHandler } from 'h3';
-import type { FullTrackInfo } from '~/types/track';
+import { defineEventHandler, getQuery } from 'h3';
+import { api } from '~/utils/spotify';
 
 export default defineEventHandler(async (event) => {
 	const query = getQuery(event);
-	const id = query.id;
-
-	const options = {
-		method: 'GET',
-		url: 'https://spotify23.p.rapidapi.com/tracks/',
-		params: { ids: id },
-		headers: {
-			'x-rapidapi-key': process.env.RAPIDAPI_KEY,
-			'x-rapidapi-host': process.env.RAPIDAPI_HOST,
-		},
-	};
+	const id = query.id as string;
 
 	try {
-		const response = await axios.request(options);
-		const trackInfo: FullTrackInfo = response.data.tracks[0];
+		const trackInfo = await api.tracks.get('id');
 		return trackInfo;
 	} catch (error) {
 		console.error(error);

@@ -1,31 +1,22 @@
-import axios from 'axios';
 import { defineEventHandler, getQuery } from 'h3';
-import type { SearchData } from '~/types/search';
+import { api } from '~/utils/spotify';
 
 export default defineEventHandler(async (event) => {
 	const query = getQuery(event);
-	const searchTerm = query.q;
+	const searchTerm = query.q as string;
 
-	const options = {
-		method: 'GET',
-		url: 'https://spotify23.p.rapidapi.com/search/',
-		params: {
-			q: searchTerm,
-			type: 'multi',
-			offset: '0',
-			limit: '10',
-			numberOfTopResults: '5',
-		},
-		headers: {
-			'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
-			'X-RapidAPI-Host': process.env.RAPIDAPI_HOST,
-			'Content-Type': 'application/json',
-		},
-	};
+	if (!searchTerm) {
+		return { albums: [], artists: [], tracks: [], playlists: [] };
+	}
 
 	try {
-		const response = await axios.request(options);
-		return response.data as SearchData;
+		const response = await api.search(searchTerm, [
+			'album',
+			'artist',
+			'track',
+			'playlist',
+		]);
+		return response;
 	} catch (error) {
 		console.error(error);
 		throw createError({

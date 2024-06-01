@@ -20,13 +20,13 @@ const playlists = computed(() =>
 				<ResourceLink
 					:to="{
 						name: 'playlist-uri',
-						params: { uri: encodeURIComponent(playlist.data.uri) },
+						params: { uri: encodeURIComponent(playlist.uri) },
 					}">
 					<img
-						:src="playlist.data.images.items[0].sources[0].url"
+						:src="playlist.images[0]?.url"
 						alt=""
 						class="w-12 h-12 rounded" />
-					<p>{{ playlist.data.name }}</p>
+					<p>{{ playlist.name }}</p>
 				</ResourceLink>
 			</div>
 		</div>
