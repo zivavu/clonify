@@ -1,0 +1,34 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useSearchStore } from '~/stores/searchStore';
+import ResourceLink from '~/components/ResourceLink.vue';
+
+const searchStore = useSearchStore();
+const artists = computed(() =>
+	searchStore.results?.artists?.items.slice(0, 10)
+);
+</script>
+
+<template>
+	<div v-if="artists?.length" class="p-4 mb-4 border rounded shadow artists">
+		<h2 class="text-lg font-bold">Artists</h2>
+		<div class="grid grid-cols-2 gap-4">
+			<div
+				v-for="(artist, index) in artists"
+				:key="index"
+				class="flex items-center p-2 space-x-4 rounded">
+				<ResourceLink
+					:to="{
+						name: 'artist-uri',
+						params: { uri: encodeURIComponent(artist.data.uri) },
+					}">
+					<img
+						:src="artist.data.visuals.avatarImage.sources[0].url"
+						alt=""
+						class="w-12 h-12 rounded" />
+					<p>{{ artist.data.profile.name }}</p>
+				</ResourceLink>
+			</div>
+		</div>
+	</div>
+</template>
