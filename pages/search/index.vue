@@ -2,9 +2,7 @@
 import { useSearchStore } from '~/stores/searchStore';
 
 const searchStore = useSearchStore();
-const storeData = searchStore?.getResults;
-
-watchEffect(() => console.log(searchStore.results));
+const storeData = toRaw(searchStore?.getResults);
 </script>
 
 <template>

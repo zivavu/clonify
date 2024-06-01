@@ -5,6 +5,7 @@ import { useFetch } from '@vueuse/core';
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useSearchStore } from '~/stores/searchStore';
+import type { SearchData } from '~/types/search';
 import { debounce } from '~/utils/debounce';
 
 const searchTerm = ref('');
@@ -13,11 +14,12 @@ const searchStore = useSearchStore();
 
 const performSearch = async (query: string) => {
 	if (query.trim()) {
-		const { data, error } = await useFetch(`/api/search?q=${query}`);
-		if (error.value) {
+		const { data, error } = await useFetch<string>(`/api/search?q=${query}`);
+		if (error.value || !data.value) {
 			console.error('Error during search:', error.value);
 		} else {
-			searchStore.setResults(data.value as string);
+			const jsonData = JSON.parse(data.value) as SearchData;
+			searchStore.setResults(jsonData);
 		}
 	} else {
 		searchStore.clearResults();

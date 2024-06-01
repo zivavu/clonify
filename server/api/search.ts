@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { defineEventHandler, getQuery } from 'h3';
+import type { SearchData } from '~/types/search';
 
 export default defineEventHandler(async (event) => {
 	const query = getQuery(event);
@@ -18,12 +19,13 @@ export default defineEventHandler(async (event) => {
 		headers: {
 			'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
 			'X-RapidAPI-Host': process.env.RAPIDAPI_HOST,
+			'Content-Type': 'application/json',
 		},
 	};
 
 	try {
 		const response = await axios.request(options);
-		return JSON.parse(JSON.stringify(response.data));
+		return response.data as SearchData;
 	} catch (error) {
 		console.error(error);
 		throw createError({
