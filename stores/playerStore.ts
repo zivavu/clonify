@@ -1,22 +1,34 @@
-import { defineStore } from 'pinia';
-import type { TrackItem } from '~/types/search';
+import axios from 'axios';
+import type { PartialTrackInfo } from '~/types/search';
+import type { FullTrackInfo } from '~/types/track';
 
 export const usePlayerStore = defineStore('player', {
 	state: () => ({
-		currentTrack: null as TrackItem | null,
-		queue: [] as TrackItem[],
+		currentTrack: null as FullTrackInfo | null,
+		queue: [] as FullTrackInfo[],
 		isPlaying: false,
 		volume: 50,
 		playMode: 'normal',
 		parentUri: null as string | null,
 	}),
 	actions: {
-		playTrack(track: TrackItem) {
+		async playTrackFromPartialInfo(track: PartialTrackInfo) {
+			try {
+				const response = await axios.get(`/api/getTrack`, {
+					params: { id: track.data.id },
+				});
+				const fullTrackInfo: FullTrackInfo = response.data;
+				this.currentTrack = fullTrackInfo;
+				this.isPlaying = true;
+			} catch (error) {
+				console.error('Failed to fetch full track info:', error);
+			}
+		},
+		playTrack(track: FullTrackInfo) {
 			this.currentTrack = track;
-			console.log(track);
 			this.isPlaying = true;
 		},
-		addToQueue(track: TrackItem) {
+		addToQueue(track: FullTrackInfo) {
 			this.queue.push(track);
 		},
 		setVolume(volume: number) {

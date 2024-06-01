@@ -29,7 +29,7 @@ export interface SearchData {
 	};
 	tracks: {
 		totalCount: number;
-		items: TrackItem[];
+		items: PartialTrackInfo[];
 	};
 	users: {
 		totalCount: number;
@@ -188,7 +188,7 @@ interface FeaturedItem {
 	};
 }
 
-export interface TrackItem {
+export interface PartialTrackInfo {
 	data: {
 		uri: string;
 		id: string;

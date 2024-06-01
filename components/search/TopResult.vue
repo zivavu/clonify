@@ -10,7 +10,8 @@ const topResult = computed(() => searchStore.results?.topResults?.items?.[0]);
 
 const playTopResult = () => {
 	if (topResult.value) {
-		playerStore.playTrack(topResult.value);
+		playerStore.playTrackFromPartialInfo(topResult.value);
+		console.log(playerStore.currentTrack);
 	}
 };
 </script>

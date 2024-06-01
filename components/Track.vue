@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { Icon } from '@iconify/vue';
 import { defineProps } from 'vue';
-import type { TrackItem } from '~/types/search';
+import type { PartialTrackInfo } from '~/types/search';
 
 const props = defineProps<{
-	track: TrackItem;
+	track: PartialTrackInfo;
 }>();
 </script>
 
