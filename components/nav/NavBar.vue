@@ -1,5 +1,6 @@
 <script setup>
-import NavLink from '~/components/NavLink.vue';
+import NavLink from './NavLink.vue';
+import SearchBar from './SearchBar.vue';
 
 const navLinks = [
 	{ icon: 'lucide:library', label: 'My Library', link: '/library' },
@@ -18,14 +19,14 @@ const rightLinks = [
 <template>
 	<nav
 		class="flex items-center justify-between px-4 py-2 text-white bg-background">
-		<div class="flex items-center">
+		<div class="flex items-center gap-2">
 			<NavLink
 				v-for="(item, index) in navLinks"
 				:key="index"
 				:to="item.link"
 				:icon="item.icon"
 				:label="item.label"
-				:class="index === 0 ? `w-64 mr-8` : 'mr-20 px-6'" />
+				:class="index === 0 ? `w-64 mr-8` : 'pl-6 pr-20'" />
 			<div class="relative max-w-sm">
 				<SearchBar />
 			</div>
