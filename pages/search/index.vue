@@ -11,12 +11,12 @@ const results = computed(() => searchStore.results);
 </script>
 
 <template>
-	<div>
+	<div class="flex flex-wrap gap-2 space">
 		<TopResult v-if="results" />
 		<Tracks v-if="results" />
-		<Artists v-if="results" />
-		<Albums v-if="results" />
-		<Playlists v-if="results" />
+		<Artists v-if="results" class="min-w-full" />
+		<Albums v-if="results" class="min-w-full" />
+		<Playlists v-if="results" class="min-w-full" />
 
 		<div v-else>No results found.</div>
 	</div>

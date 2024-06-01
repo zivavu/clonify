@@ -18,7 +18,7 @@ const rightLinks = [
 
 <template>
 	<nav
-		class="flex items-center justify-between px-4 py-2 text-white bg-background">
+		class="z-50 flex items-center justify-between px-4 py-2 text-white bg-background">
 		<div class="flex items-center gap-2">
 			<NavLink
 				v-for="(item, index) in navLinks"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useSearchStore } from '~/stores/searchStore';
 import ResourceLink from '~/components/ResourceLink.vue';
+import { useSearchStore } from '~/stores/searchStore';
 
 const searchStore = useSearchStore();
 const playlists = computed(() =>
@@ -10,9 +10,7 @@ const playlists = computed(() =>
 </script>
 
 <template>
-	<div
-		v-if="playlists?.length"
-		class="p-4 mb-4 border rounded shadow playlists">
+	<div v-if="playlists?.length" class="p-4 mb-4 playlists">
 		<h2 class="text-lg font-bold">Playlists</h2>
 		<div class="grid grid-cols-2 gap-4">
 			<div

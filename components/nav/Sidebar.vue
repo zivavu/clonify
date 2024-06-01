@@ -17,7 +17,7 @@ const sidebarItems = [
 </script>
 
 <template>
-	<div class="h-screen text-white rounded-xl bg-background w-72">
+	<div class="text-white rounded-xl bg-background w-72">
 		<nav class="flex flex-col gap-6 p-4">
 			<NavLink
 				v-for="(item, index) in sidebarItems"

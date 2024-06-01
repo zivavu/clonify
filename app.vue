@@ -7,7 +7,7 @@ import Sidebar from './components/nav/Sidebar.vue';
 	<div class="relative flex flex-col">
 		<NavBar class="sticky top-0 h-16" />
 		<div class="flex flex-1">
-			<Sidebar class="sticky top-16" />
+			<Sidebar class="sticky h-full top-16" />
 			<div class="flex-1 overflow-y-auto border rounded-xl">
 				<NuxtPage />
 			</div>

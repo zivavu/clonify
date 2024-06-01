@@ -188,7 +188,7 @@ interface FeaturedItem {
 	};
 }
 
-interface TrackItem {
+export interface TrackItem {
 	data: {
 		uri: string;
 		id: string;

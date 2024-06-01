@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useSearchStore } from '~/stores/searchStore';
 import ResourceLink from '~/components/ResourceLink.vue';
+import { useSearchStore } from '~/stores/searchStore';
 
 const searchStore = useSearchStore();
 const albums = computed(() => searchStore.results?.albums?.items.slice(0, 10));
 </script>
 
 <template>
-	<div v-if="albums?.length" class="p-4 mb-4 border rounded shadow albums">
+	<div v-if="albums?.length" class="p-4 mb-4 albums">
 		<h2 class="text-lg font-bold">Albums</h2>
 		<div class="grid grid-cols-2 gap-4">
 			<div
