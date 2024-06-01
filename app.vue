@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import NavBar from './components/nav/NavBar.vue';
+import PlayerBar from './components/nav/PlayerBar.vue';
 import Sidebar from './components/nav/Sidebar.vue';
 </script>
 
 <template>
-	<div class="relative flex flex-col">
+	<div class="relative flex flex-col min-h-screen">
 		<NavBar class="sticky top-0 h-16" />
-		<div class="flex flex-1">
+		<div class="flex">
 			<Sidebar class="sticky h-full top-16" />
-			<div class="flex-1 overflow-y-auto border rounded-xl">
+			<div class="flex-1 mb-2 mr-4 overflow-y-auto border rounded-xl">
 				<NuxtPage />
 			</div>
 		</div>
+		<PlayerBar />
 	</div>
 </template>

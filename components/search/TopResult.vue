@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import { computed } from 'vue';
+import { usePlayerStore } from '~/stores/playerStore';
 import { useSearchStore } from '~/stores/searchStore';
 
 const searchStore = useSearchStore();
+const playerStore = usePlayerStore();
 const topResult = computed(() => searchStore.results?.topResults?.items?.[0]);
-console.log(toRaw(searchStore.results));
+
+const playTopResult = () => {
+	if (topResult.value) {
+		playerStore.playTrack(topResult.value);
+	}
+};
 </script>
 
 <template>
@@ -25,7 +32,9 @@ console.log(toRaw(searchStore.results));
 				<h3 class="text-3xl font-semibold">{{ topResult.data.name }}</h3>
 				<p>{{ topResult.data.artists.items[0].profile.name }}</p>
 			</div>
-			<button class="absolute z-10 bottom-4 right-4">
+			<button
+				@click.stop.prevent="playTopResult"
+				class="absolute z-10 bottom-4 right-4">
 				<Icon
 					icon="ic:round-play-circle"
 					class="text-6xl text-green-500 transition duration-100 hover:scale-105" />
