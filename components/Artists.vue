@@ -3,7 +3,7 @@ import type { Artist } from '@spotify/web-api-ts-sdk';
 import { defineProps } from 'vue';
 import ProfileList from '~/components/ProfileList.vue';
 
-const props = defineProps<{ artists: Artist[] }>();
+const { artists } = defineProps<{ artists: Artist[] }>();
 </script>
 
 <template>

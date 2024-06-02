@@ -16,7 +16,7 @@ const { topResult } = defineProps<{
 				params: { uri: encodeURIComponent(topResult.uri) },
 			}"
 			class="relative flex flex-col gap-6 p-4 rounded-lg min-w-96 hover:bg-neutral-900 bg-neutral-950">
-			<nuxt-img
+			<img
 				:src="topResult.album.images[0]?.url"
 				alt="Cover Art"
 				class="w-24 h-24 rounded" />

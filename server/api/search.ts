@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
 			searchTerm,
 			['album', 'artist', 'track', 'playlist'],
 			'US',
-			8
+			20
 		);
 		return response;
 	} catch (error) {

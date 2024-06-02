@@ -27,7 +27,7 @@ const toggleHover = (state: boolean) => {
 					name: 'track-uri',
 					params: { uri: encodeURIComponent(track.uri) },
 				}">
-				<nuxt-img
+				<img
 					:src="track.album.images[0]?.url"
 					alt="Cover Art"
 					class="w-12 h-12 rounded" />

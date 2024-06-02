@@ -26,7 +26,7 @@ const {
 			<div
 				:class="['grid', additionalClass]"
 				style="
-					grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+					grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 					grid-auto-rows: 0;
 					grid-template-rows: 1fr;
 				">
