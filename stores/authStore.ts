@@ -11,9 +11,14 @@ export const useAuthStore = defineStore('auth', {
 				const response = await $fetch('/api/auth/token');
 				this.accessToken = response.accessToken;
 				this.refreshToken = response.refreshToken;
+				this.setTokens(response.accessToken, response.refreshToken);
 			} catch (error) {
 				console.error('Failed to fetch access token', error);
 			}
+		},
+		setTokens(accessToken: string, refreshToken: string) {
+			this.accessToken = accessToken;
+			this.refreshToken = refreshToken;
 		},
 	},
 });

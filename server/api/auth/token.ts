@@ -25,7 +25,11 @@ export default defineEventHandler(async (event) => {
 	};
 
 	try {
-		const response = await $fetch('https://accounts.spotify.com/api/token', {
+		const response: {
+			access_token: string;
+			expires_in: number;
+			refresh_token: string;
+		} = await $fetch('https://accounts.spotify.com/api/token', {
 			method: 'POST',
 			body: params,
 			headers: headers,

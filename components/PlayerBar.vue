@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Icon } from '@iconify/vue';
 import { computed, ref } from 'vue';
 import { usePlayerStore } from '~/stores/playerStore';
 import { formatTime } from '~/utils/formatTime';
@@ -10,7 +10,15 @@ const isPlaying = computed(() => playerStore.isPlaying);
 const currentTime = ref(0);
 
 const togglePlay = () => {
-	playerStore.togglePlay();
+	isPlaying.value ? playerStore.pauseTrack() : playerStore.resumeTrack();
+};
+
+const nextTrack = () => {
+	playerStore.controlPlayback('next');
+};
+
+const previousTrack = () => {
+	playerStore.controlPlayback('previous');
 };
 
 const onTimeUpdate = (event: Event) => {
@@ -33,15 +41,19 @@ const onTimeUpdate = (event: Event) => {
 					{{ currentTrack?.artists[0]?.name }}
 				</p>
 			</div>
+			<button @click="previousTrack" class="p-2 rounded bg-neutral-800">
+				<Icon icon="mdi:skip-previous" class="text-2xl" />
+			</button>
 			<button @click="togglePlay" class="p-2 rounded bg-neutral-800">
 				<div v-if="isPlaying">
-					<!-- Ikonka pauzy -->
 					<Icon icon="mdi:pause" class="text-2xl" />
 				</div>
 				<div v-else>
-					<!-- Ikonka odtwarzania -->
 					<Icon icon="mdi:play" class="text-2xl" />
 				</div>
+			</button>
+			<button @click="nextTrack" class="p-2 rounded bg-neutral-800">
+				<Icon icon="mdi:skip-next" class="text-2xl" />
 			</button>
 		</div>
 		<div class="flex items-center space-x-2">
