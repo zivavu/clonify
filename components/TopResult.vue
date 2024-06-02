@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import { computed } from 'vue';
-import { useSearchStore } from '~/stores/searchStore';
+import type { Track } from '@spotify/web-api-ts-sdk';
 
-const searchStore = useSearchStore();
-const topResult = computed(() => searchStore.results?.tracks?.items?.[0]);
+const { topResult } = defineProps<{
+	topResult: Track;
+}>();
 </script>
 
 <template>
 	<div v-if="topResult" class="relative p-4 top-result">
-		<h2 class="text-xl font-bold">Top Result</h2>
+		<h2 class="text-2xl font-bold">Top Result</h2>
 		<NuxtLink
 			:to="{
 				name: 'track-uri',

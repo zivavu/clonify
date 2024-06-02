@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useSearchStore } from '~/stores/searchStore';
+import type { Artist } from '@spotify/web-api-ts-sdk';
+import { defineProps } from 'vue';
 
-const searchStore = useSearchStore();
-const artists = computed(() =>
-	searchStore.results?.artists?.items.slice(0, 10)
-);
+const { artists } = defineProps<{ artists: Artist[] }>();
 </script>
 
 <template>

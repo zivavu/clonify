@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useSearchStore } from '~/stores/searchStore';
+import type { PartialSearchResult } from '@spotify/web-api-ts-sdk';
 
-const searchStore = useSearchStore();
-const playlists = computed(() =>
-	searchStore.results?.playlists?.items.slice(0, 10)
-);
+const { playlistsSearchResult } = defineProps<{
+	playlistsSearchResult: PartialSearchResult['playlists'];
+}>();
+const playlists = playlistsSearchResult?.items;
 </script>
 
 <template>

@@ -17,7 +17,7 @@ const toggleHover = (state: boolean) => {
 
 <template>
 	<div
-		class="flex items-center justify-between w-full p-2 space-x-6"
+		class="flex items-center justify-between w-full p-2 pr-4 space-x-6 rounded-lg hover:bg-neutral-900"
 		@mouseover="toggleHover(true)"
 		@mouseleave="toggleHover(false)">
 		<div class="flex items-center space-x-4">
