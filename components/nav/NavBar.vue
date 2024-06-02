@@ -14,6 +14,10 @@ const rightLinks = [
 	{ icon: 'clarity:cog-line', label: 'Settings', link: '/settings' },
 	{ icon: 'solar:user-circle-linear', label: 'Profile', link: '/profile' },
 ];
+
+const loginWithSpotify = () => {
+	window.location.href = '/api/auth/login';
+};
 </script>
 
 <template>
@@ -40,5 +44,10 @@ const rightLinks = [
 				:icon="item.icon"
 				:label="item.label" />
 		</div>
+		<button
+			@click="loginWithSpotify"
+			class="p-2 text-white bg-green-500 rounded">
+			Login with Spotify
+		</button>
 	</nav>
 </template>

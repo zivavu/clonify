@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import NavBar from './components/nav/NavBar.vue';
 import Sidebar from './components/nav/Sidebar.vue';
+import PlayerBar from './components/PlayerBar.vue';
 </script>
 
 <template>
@@ -13,5 +14,6 @@ import Sidebar from './components/nav/Sidebar.vue';
 				<NuxtPage />
 			</div>
 		</div>
+		<PlayerBar />
 	</div>
 </template>

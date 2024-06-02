@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import Albums from '~/components/Albums.vue';
 import Artists from '~/components/Artists.vue';
 import Playlists from '~/components/Playlists.vue';
@@ -14,8 +14,17 @@ const discoverStore = useDiscoverStore();
 const results = computed(() => searchStore.results);
 const categories = computed(() => discoverStore.categories);
 
+const isSearchData = computed(() => {
+	return (
+		results.value?.tracks?.items?.length ||
+		results.value?.artists?.items?.length ||
+		results.value?.albums?.items?.length ||
+		results.value?.playlists?.items?.length
+	);
+});
+
 onMounted(() => {
-	if (!results.value) {
+	if (!results.value && !categories.value) {
 		discoverStore.fetchCategories();
 	}
 });
@@ -23,13 +32,7 @@ onMounted(() => {
 
 <template>
 	<div class="flex flex-wrap gap-2 space">
-		<div
-			v-if="
-				results?.tracks?.items?.length ||
-				results?.artists?.items?.length ||
-				results?.albums?.items?.length ||
-				results?.playlists?.items?.length
-			">
+		<div v-show="isSearchData" class="w-full">
 			<div class="flex flex-row flex-wrap w-full xl:flex-nowrap">
 				<TopResult
 					v-if="results?.tracks?.items?.length"
@@ -51,11 +54,11 @@ onMounted(() => {
 				:playlists="results.playlists.items as SimplifiedPlaylist[]"
 				class="min-w-full" />
 		</div>
-		<div v-else class="w-full p-4">
-			<h2 class="mb-4 text-2xl font-bold">Discover Categories</h2>
+		<div v-show="!isSearchData" class="w-full p-4">
+			<h2 class="mb-4 text-2xl font-bold">Discover</h2>
 			<div
 				class="grid gap-4"
-				style="grid-template-columns: repeat(auto-fill, minmax(160px, 1fr))">
+				style="grid-template-columns: repeat(auto-fill, minmax(170px, 1fr))">
 				<div
 					v-for="category in categories"
 					:key="category.id"

@@ -2,6 +2,7 @@
 import { Icon } from '@iconify/vue';
 import type { Track } from '@spotify/web-api-ts-sdk';
 import { defineProps, ref } from 'vue';
+import { usePlayerStore } from '~/stores/playerStore';
 import { formatTime } from '~/utils/formatTime';
 
 const props = defineProps<{
@@ -9,6 +10,11 @@ const props = defineProps<{
 }>();
 
 const isHovered = ref(false);
+const playerStore = usePlayerStore();
+
+const playTrack = () => {
+	playerStore.playTrack(props.track);
+};
 
 const toggleHover = (state: boolean) => {
 	isHovered.value = state;
@@ -19,7 +25,8 @@ const toggleHover = (state: boolean) => {
 	<div
 		class="flex items-center justify-between w-full p-2 pr-4 space-x-6 rounded-lg hover:bg-neutral-900"
 		@mouseover="toggleHover(true)"
-		@mouseleave="toggleHover(false)">
+		@mouseleave="toggleHover(false)"
+		@click="playTrack">
 		<div class="flex items-center space-x-4">
 			<NuxtLink
 				class="relative"

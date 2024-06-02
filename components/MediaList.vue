@@ -54,6 +54,9 @@ const {
 							class="text-sm text-gray-400">
 							{{ new Date(item.release_date).getFullYear() }}
 						</p>
+						<p v-if="item.type === 'playlist'" class="text-sm text-gray-400">
+							By: {{ (item as SimplifiedPlaylist).owner.display_name }}
+						</p>
 					</NuxtLink>
 				</div>
 			</div>
