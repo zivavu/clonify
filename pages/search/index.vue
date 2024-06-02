@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk';
 import Albums from '~/components/Albums.vue';
 import Artists from '~/components/Artists.vue';
 import Playlists from '~/components/Playlists.vue';
@@ -8,6 +9,7 @@ import { useSearchStore } from '~/stores/searchStore';
 
 const searchStore = useSearchStore();
 const results = computed(() => searchStore.results);
+console.log(results);
 </script>
 
 <template>
@@ -30,8 +32,7 @@ const results = computed(() => searchStore.results);
 			class="min-w-full" />
 		<Playlists
 			v-if="results?.playlists"
-			:playlistsSearchResult="results?.playlists"
+			:playlists="results.playlists.items as SimplifiedPlaylist[]"
 			class="min-w-full" />
-		<div v-else>No results found.</div>
 	</div>
 </template>

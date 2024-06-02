@@ -1,0 +1,62 @@
+<script setup lang="ts">
+import type {
+	SimplifiedAlbum,
+	SimplifiedPlaylist,
+} from '@spotify/web-api-ts-sdk';
+import { defineProps, type HTMLAttributes } from 'vue';
+
+type MediaItem = SimplifiedAlbum | SimplifiedPlaylist;
+
+const {
+	items,
+	title,
+	class: additionalClass,
+} = defineProps<{
+	items: MediaItem[];
+	title: string;
+	class?: HTMLAttributes['class'];
+}>();
+</script>
+
+<template>
+	<div class="w-full space-y-1">
+		<h2 class="ml-4 text-2xl font-bold">{{ title }}</h2>
+
+		<div v-if="items?.length" class="p-2">
+			<div
+				:class="['grid', additionalClass]"
+				style="
+					grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+					grid-auto-rows: 0;
+					grid-template-rows: 1fr;
+				">
+				<div
+					v-for="(item, index) in items"
+					:key="index"
+					style="overflow-y: hidden">
+					<NuxtLink
+						:to="{
+							name: item.type === 'album' ? 'album-uri' : 'playlist-uri',
+							params: { uri: encodeURIComponent(item.uri) },
+						}"
+						class="flex flex-col content-center p-4 space-y-2 rounded-lg hover:bg-neutral-900">
+						<img
+							:src="item.images[0]?.url"
+							width="192"
+							height="192"
+							alt="Media Cover"
+							class="block object-cover w-full h-full rounded aspect-square" />
+						<p class="w-full truncate">
+							{{ item.name }}
+						</p>
+						<p
+							v-if="item.type === 'album' && 'release_date' in item"
+							class="text-sm text-gray-400">
+							{{ new Date(item.release_date).getFullYear() }}
+						</p>
+					</NuxtLink>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

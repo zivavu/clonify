@@ -7,7 +7,6 @@ export const useSearchStore = defineStore('search', {
 	}),
 	actions: {
 		async performSearch(query: string) {
-			console.log('query', query);
 			if (!query.trim()) {
 				this.clearResults();
 				return;

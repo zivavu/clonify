@@ -10,12 +10,12 @@ export default defineEventHandler(async (event) => {
 	}
 
 	try {
-		const response = await api.search(searchTerm, [
-			'album',
-			'artist',
-			'track',
-			'playlist',
-		]);
+		const response = await api.search(
+			searchTerm,
+			['album', 'artist', 'track', 'playlist'],
+			'US',
+			8
+		);
 		return response;
 	} catch (error) {
 		console.error(error);
