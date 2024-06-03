@@ -2,6 +2,14 @@
 import NavBar from './components/nav/NavBar.vue';
 import Sidebar from './components/nav/Sidebar.vue';
 import PlayerBar from './components/PlayerBar.vue';
+
+const authStore = useAuthStore();
+
+const isLoggedIn = computed(() => !!authStore.accessToken);
+
+onBeforeMount(async () => {
+	authStore.initializeTokens();
+});
 </script>
 
 <template>
@@ -14,6 +22,6 @@ import PlayerBar from './components/PlayerBar.vue';
 				<NuxtPage />
 			</div>
 		</div>
-		<PlayerBar />
+		<PlayerBar v-if="isLoggedIn" />
 	</div>
 </template>

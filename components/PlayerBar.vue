@@ -1,24 +1,97 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import { computed, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { usePlayerStore } from '~/stores/playerStore';
-import { formatTime } from '~/utils/formatTime';
 
+// Pinia store for player state
 const playerStore = usePlayerStore();
 const currentTrack = computed(() => playerStore.currentTrack);
-const isPlaying = computed(() => playerStore.isPlaying);
+const isActive = ref(false);
 const currentTime = ref(0);
+let player: Spotify.Player | null = null;
+
+const loadSpotifySDK = () => {
+	return new Promise<void>((resolve) => {
+		const script = document.createElement('script');
+		script.src = 'https://sdk.scdn.co/spotify-player.js';
+		script.async = true;
+		document.body.appendChild(script);
+		script.onload = () => resolve();
+	});
+};
+
+function onSpotifyWebPlaybackSDKReady() {
+	initPlayer();
+}
+
+const initPlayer = () => {
+	const token = useAuthStore().accessToken;
+
+	if (!token) return;
+	player = new Spotify.Player({
+		name: 'Web Playback SDK',
+		getOAuthToken: (cb) => {
+			cb(token);
+		},
+		volume: 0.5,
+	});
+
+	player.addListener('ready', ({ device_id }) => {
+		console.log('Ready with Device ID', device_id);
+		playerStore.setDeviceId(device_id);
+	});
+
+	player.addListener('not_ready', ({ device_id }) => {
+		console.log('Device ID has gone offline', device_id);
+	});
+
+	player.addListener('player_state_changed', (state) => {
+		if (!state) {
+			return;
+		}
+		console.log('Player State Changed:', state);
+		currentTime.value = state.position / 1000;
+		player?.getCurrentState().then((state) => {
+			isActive.value = !!state;
+		});
+	});
+
+	player.connect().then((success) => {
+		if (success) {
+			console.log('The Web Playback SDK successfully connected to Spotify!');
+		} else {
+			console.error('The Web Playback SDK could not connect to Spotify');
+		}
+	});
+};
+
+onMounted(async () => {
+	console.log('PlayerBar component mounted');
+	if (!window.Spotify) {
+		window.onSpotifyWebPlaybackSDKReady = onSpotifyWebPlaybackSDKReady;
+		await loadSpotifySDK();
+	} else {
+		initPlayer();
+	}
+});
+
+onBeforeUnmount(() => {
+	console.log('PlayerBar component before unmount');
+	if (player) {
+		player.disconnect();
+	}
+});
 
 const togglePlay = () => {
-	isPlaying.value ? playerStore.pauseTrack() : playerStore.resumeTrack();
+	player?.togglePlay();
 };
 
 const nextTrack = () => {
-	playerStore.controlPlayback('next');
+	player?.nextTrack();
 };
 
 const previousTrack = () => {
-	playerStore.controlPlayback('previous');
+	player?.previousTrack();
 };
 
 const onTimeUpdate = (event: Event) => {
@@ -56,21 +129,5 @@ const onTimeUpdate = (event: Event) => {
 				<Icon icon="mdi:skip-next" class="text-2xl" />
 			</button>
 		</div>
-		<div class="flex items-center space-x-2">
-			<p>{{ formatTime(currentTime * 1000) }}</p>
-			<input
-				type="range"
-				class="w-full"
-				v-bind:max="currentTrack ? currentTrack.duration_ms / 1000 : 100"
-				v-model="currentTime" />
-			<p>{{ formatTime(currentTrack?.duration_ms || 0) }}</p>
-		</div>
-		<audio
-			v-if="currentTrack"
-			:src="currentTrack.preview_url || undefined"
-			@timeupdate="onTimeUpdate"
-			@play="playerStore.setPlaying(true)"
-			@pause="playerStore.setPlaying(false)"
-			ref="audioElement"></audio>
 	</div>
 </template>

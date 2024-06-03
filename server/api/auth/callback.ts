@@ -38,14 +38,11 @@ export default defineEventHandler(async (event) => {
 		});
 
 		setCookie(event, 'spotifyAccessToken', response.access_token, {
-			httpOnly: true,
 			maxAge: response.expires_in,
 		});
-		setCookie(event, 'spotifyRefreshToken', response.refresh_token, {
-			httpOnly: true,
-		});
+		setCookie(event, 'spotifyRefreshToken', response.refresh_token, {});
 
-		return sendRedirect(event, '/'); // Redirect to your home page after successful authentication
+		return sendRedirect(event, '/');
 	} catch (error) {
 		console.error(error);
 		throw createError({

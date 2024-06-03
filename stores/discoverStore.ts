@@ -8,12 +8,9 @@ export const useDiscoverStore = defineStore('discover', {
 	actions: {
 		async fetchCategories() {
 			try {
-				const { data, error } = await useFetch(`/api/getCategories`);
-				if (error.value) {
-					console.error('Error fetching categories:', error.value);
-				} else if (data.value) {
-					this.categories = data.value.categories.items;
-				}
+				const data = await $fetch(`/api/getCategories`);
+
+				this.categories = data.categories.items;
 			} catch (error) {
 				console.error('Error fetching categories:', error);
 			}

@@ -15,9 +15,9 @@ const rightLinks = [
 	{ icon: 'solar:user-circle-linear', label: 'Profile', link: '/profile' },
 ];
 
-const loginWithSpotify = () => {
+function loginWithSpotify() {
 	window.location.href = '/api/auth/login';
-};
+}
 </script>
 
 <template>

@@ -1,10 +1,10 @@
 import { defineEventHandler, sendRedirect } from 'h3';
 
 export default defineEventHandler(async (event) => {
-	const clientId = process.env.SPOTIFY_CLIENT_ID;
-	const redirectUri = process.env.SPOTIFY_REDIRECT_URI;
+	const clientId = process.env.SPOTIFY_CLIENT_ID!;
+	const redirectUri = process.env.SPOTIFY_REDIRECT_URI!;
 	const scopes =
-		'user-read-playback-state user-modify-playback-state user-read-currently-playing';
+		'user-read-playback-state user-modify-playback-state streaming user-read-currently-playing user-read-private user-library-read user-read-email user-read-private';
 
 	if (!clientId || !redirectUri) {
 		throw createError({

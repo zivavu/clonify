@@ -13,15 +13,10 @@ export const useSearchStore = defineStore('search', {
 			}
 
 			try {
-				const { data, error } = await useFetch<PartialSearchResult>(
+				const data = await $fetch<PartialSearchResult>(
 					`/api/search?q=${query}`
 				);
-				console.log(data);
-				if (error.value) {
-					console.error('Error during search:', error.value);
-				} else if (data.value) {
-					this.setResults(data.value);
-				}
+				this.setResults(data);
 			} catch (error) {
 				console.error('Error during search:', error);
 			}

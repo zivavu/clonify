@@ -1,18 +1,13 @@
 import type { Track } from '@spotify/web-api-ts-sdk';
 import { defineStore } from 'pinia';
-import { useAuthStore } from './authStore';
 
 export const usePlayerStore = defineStore('player', {
 	state: () => ({
 		currentTrack: null as Track | null,
 		isPlaying: false,
+		deviceId: null as string | null, // Add deviceId
 	}),
-	getters: {
-		accessToken: () => {
-			const authStore = useAuthStore();
-			return authStore.accessToken;
-		},
-	},
+
 	actions: {
 		async playTrack(track: Track) {
 			this.currentTrack = track;
@@ -31,15 +26,24 @@ export const usePlayerStore = defineStore('player', {
 			action: 'play' | 'pause' | 'next' | 'previous',
 			uri?: string
 		) {
-			let url = `/api/player/${action}`;
-			const params = uri ? { uri } : undefined;
-			await $fetch(url, {
-				method: 'POST',
-				params,
-			}).catch((error) => console.error('Error controlling playback:', error));
+			const url = `/api/player/${action}`;
+			const params = {
+				uri,
+				deviceId: this.deviceId, // Include deviceId
+			};
+			await $fetch(url, { method: 'POST', params }).catch((error) =>
+				console.error('Error controlling playback:', error)
+			);
 		},
 		setPlaying(playing: boolean) {
 			this.isPlaying = playing;
+		},
+		setCurrentTrack(track: Track) {
+			this.currentTrack = track;
+		},
+		setDeviceId(id: string) {
+			// New action to set deviceId
+			this.deviceId = id;
 		},
 	},
 });
