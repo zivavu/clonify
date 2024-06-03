@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk';
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import Albums from '~/components/Albums.vue';
 import Artists from '~/components/Artists.vue';
 import Playlists from '~/components/Playlists.vue';
@@ -23,11 +23,8 @@ const isSearchData = computed(() => {
 	);
 });
 
-onMounted(() => {
-	if (!results.value && !categories.value) {
-		discoverStore.fetchCategories();
-	}
-});
+searchStore.clearResults();
+await discoverStore.fetchCategories();
 </script>
 
 <template>
@@ -36,22 +33,22 @@ onMounted(() => {
 			<div class="flex flex-row flex-wrap w-full xl:flex-nowrap">
 				<TopResult
 					v-if="results?.tracks?.items?.length"
-					:top-result="results.tracks.items[0]" />
+					:top-result="results?.tracks?.items[0]" />
 				<Tracks
 					v-if="results?.tracks?.items"
-					:tracks="results.tracks.items.slice(1, 5)" />
+					:tracks="results?.tracks?.items?.slice(1, 5)" />
 			</div>
 			<Artists
 				v-if="results?.artists?.items"
-				:artists="results.artists.items"
+				:artists="results?.artists?.items"
 				class="min-w-full" />
 			<Albums
 				v-if="results?.albums?.items"
-				:albums="results.albums.items"
+				:albums="results?.albums?.items"
 				class="min-w-full" />
 			<Playlists
 				v-if="results?.playlists"
-				:playlists="results.playlists.items as SimplifiedPlaylist[]"
+				:playlists="results?.playlists?.items as SimplifiedPlaylist[]"
 				class="min-w-full" />
 		</div>
 		<div v-show="!isSearchData" class="w-full p-4">
