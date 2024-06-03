@@ -2,6 +2,7 @@
 import { Icon } from '@iconify/vue';
 import type { Track } from '@spotify/web-api-ts-sdk';
 import { defineProps, ref } from 'vue';
+import { useAuthStore } from '~/stores/authStore';
 import { usePlayerStore } from '~/stores/playerStore';
 import { formatTime } from '~/utils/formatTime';
 
@@ -11,15 +12,40 @@ const props = defineProps<{
 
 const isHovered = ref(false);
 const playerStore = usePlayerStore();
+const authStore = useAuthStore();
+
+const addToQueue = async (trackUri: string) => {
+	const token = authStore.accessToken;
+	if (!token) return;
+
+	try {
+		console.log(`Adding ${trackUri} to queue`);
+		await $fetch(`https://api.spotify.com/v1/me/player/queue`, {
+			method: 'POST',
+			params: { uri: trackUri },
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
+		});
+		console.log(`Added ${trackUri} to queue`);
+	} catch (error) {
+		console.error('Failed to add to queue', error);
+	}
+};
 
 const playTrack = async () => {
 	const player = playerStore.player;
 	if (player) {
 		const state = await player.getCurrentState();
 		if (state) {
-			player.nextTrack();
-			player.togglePlay();
-
+			const { current_track } = state.track_window;
+			if (current_track.uri !== props.track.uri) {
+				await addToQueue(props.track.uri);
+				await player.nextTrack();
+			} else {
+				player.togglePlay();
+			}
 			playerStore.setCurrentTrack(props.track);
 		}
 	}

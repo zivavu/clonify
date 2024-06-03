@@ -50,6 +50,8 @@ const initPlayer = () => {
 		isActive.value = false;
 	});
 
+	player.setName('Cloanify');
+
 	player.addListener('player_state_changed', (state) => {
 		if (!state) {
 			return;
@@ -57,13 +59,10 @@ const initPlayer = () => {
 		console.log('Player State Changed:', state);
 		currentTime.value = state.position / 1000;
 		isPlaying.value = !state.paused;
+		playerStore.setCurrentTrack(state.track_window.current_track);
 		player?.getCurrentState().then((state) => {
 			isActive.value = !!state;
 		});
-	});
-
-	player.setName('Cloanify').then(() => {
-		console.log('Player name updated!');
 	});
 
 	player.connect().then((success) => {
