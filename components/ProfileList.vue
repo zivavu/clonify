@@ -14,7 +14,7 @@ const props = defineProps<{
 
 <template>
 	<div class="w-full space-y-1">
-		<h2 class="ml-4 text-2xl font-bold">{{ title }}</h2>
+		<h2 class="text-2xl font-bold">{{ title }}</h2>
 
 		<div v-if="items?.length" class="p-2">
 			<div
@@ -30,8 +30,8 @@ const props = defineProps<{
 					style="overflow-y: hidden">
 					<NuxtLink
 						:to="{
-							name: type === 'artist' ? 'artist-uri' : 'profile-uri',
-							params: { uri: encodeURIComponent(item.uri) },
+							name: type === 'artist' ? 'artist-id' : 'profile-id',
+							params: { id: encodeURIComponent(item.id) },
 						}"
 						class="flex flex-col content-center p-4 space-y-2 rounded-lg hover:bg-neutral-900">
 						<img

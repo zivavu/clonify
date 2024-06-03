@@ -5,6 +5,7 @@ export const useDiscoverStore = defineStore('discover', {
 	state: () => ({
 		categories: null as Category[] | null,
 	}),
+
 	actions: {
 		async fetchCategories() {
 			try {

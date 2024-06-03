@@ -4,10 +4,11 @@ import { defineProps } from 'vue';
 import Track from '~/components/Track.vue';
 
 const props = defineProps<{ tracks: TrackType[] }>();
+console.log(props);
 </script>
 
 <template>
-	<div v-if="tracks?.length" class="w-full p-4 mb-4 min-w-fit">
+	<div v-if="tracks?.length" class="w-full mb-4 min-w-fit">
 		<h2 class="text-2xl font-bold">Tracks</h2>
 		<ul>
 			<li v-for="(track, index) in tracks" :key="index">

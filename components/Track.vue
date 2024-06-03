@@ -2,7 +2,6 @@
 import { Icon } from '@iconify/vue';
 import type { Track } from '@spotify/web-api-ts-sdk';
 import { defineProps, ref } from 'vue';
-import { useAuthStore } from '~/stores/authStore';
 import { usePlayerStore } from '~/stores/playerStore';
 import { formatTime } from '~/utils/formatTime';
 
@@ -12,40 +11,15 @@ const props = defineProps<{
 
 const isHovered = ref(false);
 const playerStore = usePlayerStore();
-const authStore = useAuthStore();
-
-const addToQueue = async (trackUri: string) => {
-	const token = authStore.accessToken;
-	if (!token) return;
-
-	try {
-		console.log(`Adding ${trackUri} to queue`);
-		await $fetch(`https://api.spotify.com/v1/me/player/queue`, {
-			method: 'POST',
-			params: { uri: trackUri },
-			headers: {
-				Authorization: `Bearer ${token}`,
-				'Content-Type': 'application/json',
-			},
-		});
-		console.log(`Added ${trackUri} to queue`);
-	} catch (error) {
-		console.error('Failed to add to queue', error);
-	}
-};
 
 const playTrack = async () => {
-	const player = playerStore.player;
-	if (player) {
-		console.log('add to queue');
-		await addToQueue(props.track.uri);
-		await player.nextTrack();
-	}
+	await playerStore.playTrack(props.track);
 };
 
 const toggleHover = (state: boolean) => {
 	isHovered.value = state;
 };
+console.log(props.track);
 </script>
 
 <template>
@@ -53,14 +27,9 @@ const toggleHover = (state: boolean) => {
 		class="flex items-center justify-between w-full p-2 pr-4 space-x-6 rounded-lg hover:bg-neutral-900"
 		@mouseover="toggleHover(true)"
 		@mouseleave="toggleHover(false)"
-		@click="playTrack">
+		@dblclick="playTrack">
 		<div class="flex items-center space-x-4">
-			<NuxtLink
-				class="relative"
-				:to="{
-					name: 'track-uri',
-					params: { uri: encodeURIComponent(track.uri) },
-				}">
+			<NuxtLink class="relative cursor-pointer" @click="playTrack">
 				<img
 					:src="track.album.images[0]?.url"
 					alt="Cover Art"
@@ -74,8 +43,8 @@ const toggleHover = (state: boolean) => {
 				<NuxtLink
 					class="hover:underline"
 					:to="{
-						name: 'track-uri',
-						params: { uri: encodeURIComponent(track.uri) },
+						name: 'track-id',
+						params: { id: encodeURIComponent(track.id) },
 					}">
 					<h3 class="text-lg font-semibold">{{ track.name }}</h3>
 				</NuxtLink>
@@ -84,8 +53,8 @@ const toggleHover = (state: boolean) => {
 					<NuxtLink
 						class="hover:underline"
 						:to="{
-							name: 'artist-uri',
-							params: { uri: encodeURIComponent(track.artists[0]?.uri) },
+							name: 'artist-id',
+							params: { id: encodeURIComponent(track.artists[0]?.id) },
 						}">
 						<p>{{ track.artists[0]?.name }}</p>
 					</NuxtLink>

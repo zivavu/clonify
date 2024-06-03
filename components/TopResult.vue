@@ -8,12 +8,12 @@ const props = defineProps<{
 </script>
 
 <template>
-	<div v-if="topResult" class="relative p-4 top-result">
+	<div v-if="topResult" class="relative top-result">
 		<h2 class="text-2xl font-bold">Top Result</h2>
 		<NuxtLink
 			:to="{
-				name: 'track-uri',
-				params: { uri: encodeURIComponent(topResult.uri) },
+				name: 'track-id',
+				params: { id: encodeURIComponent(topResult.id) },
 			}"
 			class="relative flex flex-col gap-6 p-4 rounded-lg min-w-96 hover:bg-neutral-900 bg-neutral-950">
 			<img

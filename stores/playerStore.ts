@@ -28,7 +28,7 @@ export const usePlayerStore = defineStore('player', {
 			player.addListener('ready', async ({ device_id }) => {
 				console.log('Ready with Device ID', device_id);
 				this.isActive = true;
-				await this.setDevice(device_id); // Ustawienie aktualnego urządzenia
+				await this.setDevice(device_id);
 			});
 
 			player.addListener('not_ready', ({ device_id }) => {
@@ -40,7 +40,6 @@ export const usePlayerStore = defineStore('player', {
 				if (!state) {
 					return;
 				}
-				console.log('Player State Changed:', state);
 				this.currentTime = state.position / 1000;
 				this.isPlaying = !state.paused;
 				this.setCurrentTrack(state.track_window.current_track);
@@ -54,7 +53,7 @@ export const usePlayerStore = defineStore('player', {
 					console.log(
 						'The Web Playback SDK successfully connected to Spotify!'
 					);
-					this.setPlayer(player); // Ustawienie instancji odtwarzacza w store
+					this.setPlayer(player);
 				} else {
 					console.error('The Web Playback SDK could not connect to Spotify');
 				}
@@ -82,6 +81,35 @@ export const usePlayerStore = defineStore('player', {
 				console.log(`Set device to ${device_id}`);
 			} catch (error) {
 				console.error('Failed to set device', error);
+			}
+		},
+		async addToQueue(trackUri: string) {
+			const authStore = useAuthStore();
+			const token = authStore.accessToken;
+			if (!token) return;
+
+			try {
+				console.log(`Adding ${trackUri} to queue`);
+				await $fetch(`https://api.spotify.com/v1/me/player/queue`, {
+					method: 'POST',
+					params: { uri: trackUri },
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+				});
+				console.log(`Added ${trackUri} to queue`);
+			} catch (error) {
+				console.error('Failed to add to queue', error);
+			}
+		},
+		async playTrack(track: Spotify.Track | Track) {
+			const player = this.player;
+			if (player) {
+				console.log('Adding to queue');
+				await this.addToQueue(track.uri);
+				await player.nextTrack();
+				this.setCurrentTrack(track);
 			}
 		},
 		setCurrentTrack(track: Spotify.Track | Track) {

@@ -29,7 +29,7 @@ await discoverStore.fetchCategories();
 <template>
 	<div class="flex flex-wrap gap-2 space">
 		<div v-show="isSearchData" class="w-full">
-			<div class="flex flex-row flex-wrap w-full xl:flex-nowrap">
+			<div class="flex flex-row flex-wrap w-full space-x-4 xl:flex-nowrap">
 				<TopResult
 					v-if="results?.tracks?.items?.length"
 					:top-result="results?.tracks?.items[0]" />
@@ -50,7 +50,7 @@ await discoverStore.fetchCategories();
 				:playlists="results?.playlists?.items as SimplifiedPlaylist[]"
 				class="min-w-full" />
 		</div>
-		<div v-show="!isSearchData" class="w-full p-4">
+		<div v-show="!isSearchData" class="w-full">
 			<h2 class="mb-4 text-2xl font-bold">Discover</h2>
 			<div
 				class="grid gap-4"

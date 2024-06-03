@@ -1,7 +1,7 @@
 import { defineEventHandler } from 'h3';
 
 export default defineEventHandler(async (event) => {
-	const refreshToken = getCookie(event, 'spotifyRefreshToken');
+	const refreshToken = getCookie('spotifyRefreshToken');
 
 	if (!refreshToken) {
 		throw createError({
@@ -35,8 +35,7 @@ export default defineEventHandler(async (event) => {
 			headers: headers,
 		});
 
-		setCookie(event, 'spotifyAccessToken', response.access_token, {
-			httpOnly: true,
+		setCookie('spotifyAccessToken', response.access_token, {
 			maxAge: response.expires_in,
 		});
 
