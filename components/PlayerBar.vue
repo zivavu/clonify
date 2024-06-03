@@ -28,6 +28,28 @@ function onSpotifyWebPlaybackSDKReady() {
 	initPlayer();
 }
 
+const setDevice = async (device_id: string) => {
+	const token = authStore.accessToken;
+	if (!token) return;
+
+	try {
+		await $fetch('https://api.spotify.com/v1/me/player', {
+			method: 'PUT',
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				device_ids: [device_id], // Ustawienie aktualnego urządzenia
+				play: false,
+			}),
+		});
+		console.log(`Set device to ${device_id}`);
+	} catch (error) {
+		console.error('Failed to set device', error);
+	}
+};
+
 const initPlayer = () => {
 	const token = authStore.accessToken;
 
@@ -40,17 +62,16 @@ const initPlayer = () => {
 		volume: 0.5,
 	});
 
-	player.addListener('ready', ({ device_id }) => {
+	player.addListener('ready', async ({ device_id }) => {
 		console.log('Ready with Device ID', device_id);
 		isActive.value = true;
+		await setDevice(device_id); // Ustawienie aktualnego urządzenia
 	});
 
 	player.addListener('not_ready', ({ device_id }) => {
 		console.log('Device ID has gone offline', device_id);
 		isActive.value = false;
 	});
-
-	player.setName('Cloanify');
 
 	player.addListener('player_state_changed', (state) => {
 		if (!state) {

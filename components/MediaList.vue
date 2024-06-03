@@ -7,11 +7,7 @@ import { defineProps, type HTMLAttributes } from 'vue';
 
 type MediaItem = SimplifiedAlbum | SimplifiedPlaylist;
 
-const {
-	items,
-	title,
-	class: additionalClass,
-} = defineProps<{
+const props = defineProps<{
 	items: MediaItem[];
 	title: string;
 	class?: HTMLAttributes['class'];
@@ -24,7 +20,7 @@ const {
 
 		<div v-if="items?.length" class="p-2">
 			<div
-				:class="['grid', additionalClass]"
+				:class="['grid']"
 				style="
 					grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 					grid-auto-rows: 0;

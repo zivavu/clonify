@@ -3,11 +3,11 @@ import { defineStore } from 'pinia';
 
 export const usePlayerStore = defineStore('player', {
 	state: () => ({
-		currentTrack: null as Track | null,
+		currentTrack: null as Spotify.Track | Track | null,
 		player: null as Spotify.Player | null,
 	}),
 	actions: {
-		setCurrentTrack(track: Track) {
+		setCurrentTrack(track: Spotify.Track | Track) {
 			this.currentTrack = track;
 		},
 		setPlayer(player: Spotify.Player | null) {

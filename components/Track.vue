@@ -37,18 +37,9 @@ const addToQueue = async (trackUri: string) => {
 const playTrack = async () => {
 	const player = playerStore.player;
 	if (player) {
-		const state = await player.getCurrentState();
-		console.log(state);
-		if (state) {
-			const { current_track } = state.track_window;
-			if (current_track.uri !== props.track.uri) {
-				await addToQueue(props.track.uri);
-				await player.nextTrack();
-			} else {
-				player.togglePlay();
-			}
-			playerStore.setCurrentTrack(props.track);
-		}
+		console.log('add to queue');
+		await addToQueue(props.track.uri);
+		await player.nextTrack();
 	}
 };
 
