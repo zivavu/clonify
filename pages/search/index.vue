@@ -23,7 +23,6 @@ const isSearchData = computed(() => {
 	);
 });
 
-searchStore.clearResults();
 await discoverStore.fetchCategories();
 </script>
 

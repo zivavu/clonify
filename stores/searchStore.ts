@@ -8,7 +8,6 @@ export const useSearchStore = defineStore('search', {
 	actions: {
 		async performSearch(query: string) {
 			if (!query.trim()) {
-				this.clearResults();
 				return;
 			}
 
@@ -23,9 +22,6 @@ export const useSearchStore = defineStore('search', {
 		},
 		setResults(data: PartialSearchResult) {
 			this.results = data;
-		},
-		clearResults() {
-			this.results = null;
 		},
 	},
 	getters: {

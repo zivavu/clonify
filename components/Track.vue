@@ -12,8 +12,17 @@ const props = defineProps<{
 const isHovered = ref(false);
 const playerStore = usePlayerStore();
 
-const playTrack = () => {
-	playerStore.playTrack(props.track);
+const playTrack = async () => {
+	const player = playerStore.player;
+	if (player) {
+		const state = await player.getCurrentState();
+		if (state) {
+			player.nextTrack();
+			player.togglePlay();
+
+			playerStore.setCurrentTrack(props.track);
+		}
+	}
 };
 
 const toggleHover = (state: boolean) => {

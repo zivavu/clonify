@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { useAuthStore } from '~/stores/authStore';
 import { usePlayerStore } from '~/stores/playerStore';
+import { formatTime } from '~/utils/formatTime';
 
 // Pinia store for player state
 const playerStore = usePlayerStore();
+const authStore = useAuthStore();
 const currentTrack = computed(() => playerStore.currentTrack);
+const isPlaying = ref(false);
 const isActive = ref(false);
 const currentTime = ref(0);
 let player: Spotify.Player | null = null;
@@ -25,7 +29,7 @@ function onSpotifyWebPlaybackSDKReady() {
 }
 
 const initPlayer = () => {
-	const token = useAuthStore().accessToken;
+	const token = authStore.accessToken;
 
 	if (!token) return;
 	player = new Spotify.Player({
@@ -38,11 +42,12 @@ const initPlayer = () => {
 
 	player.addListener('ready', ({ device_id }) => {
 		console.log('Ready with Device ID', device_id);
-		playerStore.setDeviceId(device_id);
+		isActive.value = true;
 	});
 
 	player.addListener('not_ready', ({ device_id }) => {
 		console.log('Device ID has gone offline', device_id);
+		isActive.value = false;
 	});
 
 	player.addListener('player_state_changed', (state) => {
@@ -51,14 +56,20 @@ const initPlayer = () => {
 		}
 		console.log('Player State Changed:', state);
 		currentTime.value = state.position / 1000;
+		isPlaying.value = !state.paused;
 		player?.getCurrentState().then((state) => {
 			isActive.value = !!state;
 		});
 	});
 
+	player.setName('Cloanify').then(() => {
+		console.log('Player name updated!');
+	});
+
 	player.connect().then((success) => {
 		if (success) {
 			console.log('The Web Playback SDK successfully connected to Spotify!');
+			playerStore.setPlayer(player); // Ustawienie instancji odtwarzacza w store
 		} else {
 			console.error('The Web Playback SDK could not connect to Spotify');
 		}
@@ -101,7 +112,8 @@ const onTimeUpdate = (event: Event) => {
 
 <template>
 	<div
-		class="fixed bottom-0 flex items-center w-full px-4 py-2 text-white bg-gray-900">
+		class="fixed bottom-0 flex items-center w-full px-4 py-2 text-white bg-gray-900"
+		v-if="isActive">
 		<div class="flex items-center w-full space-x-4">
 			<img
 				v-if="currentTrack?.album?.images[0]?.url"
@@ -129,5 +141,20 @@ const onTimeUpdate = (event: Event) => {
 				<Icon icon="mdi:skip-next" class="text-2xl" />
 			</button>
 		</div>
+		<div class="flex items-center space-x-2">
+			<p>{{ formatTime(currentTime * 1000) }}</p>
+			<input
+				type="range"
+				class="w-full"
+				:max="currentTrack ? currentTrack.duration_ms / 1000 : 100"
+				v-model="currentTime"
+				@input="onTimeUpdate" />
+			<p>{{ formatTime(currentTrack?.duration_ms || 0) }}</p>
+		</div>
+	</div>
+	<div
+		v-else
+		class="fixed bottom-0 flex items-center w-full px-4 py-2 text-white bg-gray-900">
+		<p class="flex-1 text-center">Loading Spotify Web Playback SDK...</p>
 	</div>
 </template>

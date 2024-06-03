@@ -22,6 +22,7 @@ const performSearch = debounce(() => {
 			class="py-6 pl-10 border-none w-80 bg-foreground"
 			v-model="searchQuery"
 			@input="performSearch"
+			@focus="() => searchStore.performSearch(searchQuery)"
 			@click="() => router.push('/search')" />
 		<span
 			class="absolute inset-y-0 flex items-center justify-center px-2 start-0">
