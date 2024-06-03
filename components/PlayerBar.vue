@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
-import { useAuthStore } from '~/stores/authStore';
 import { usePlayerStore } from '~/stores/playerStore';
 import { formatTime } from '~/utils/formatTime';
 
 // Pinia store for player state
 const playerStore = usePlayerStore();
-const authStore = useAuthStore();
 const currentTrack = computed(() => playerStore.currentTrack);
-const isPlaying = ref(false);
-const isActive = ref(false);
+const isPlaying = computed(() => playerStore.isPlaying);
+const isActive = computed(() => playerStore.isActive);
 const currentTime = ref(0);
-let player: Spotify.Player | null = null;
 
 const loadSpotifySDK = () => {
 	return new Promise<void>((resolve) => {
@@ -25,76 +22,8 @@ const loadSpotifySDK = () => {
 };
 
 function onSpotifyWebPlaybackSDKReady() {
-	initPlayer();
+	playerStore.initPlayer();
 }
-
-const setDevice = async (device_id: string) => {
-	const token = authStore.accessToken;
-	if (!token) return;
-
-	try {
-		await $fetch('https://api.spotify.com/v1/me/player', {
-			method: 'PUT',
-			headers: {
-				Authorization: `Bearer ${token}`,
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				device_ids: [device_id], // Ustawienie aktualnego urządzenia
-				play: false,
-			}),
-		});
-		console.log(`Set device to ${device_id}`);
-	} catch (error) {
-		console.error('Failed to set device', error);
-	}
-};
-
-const initPlayer = () => {
-	const token = authStore.accessToken;
-
-	if (!token) return;
-	player = new Spotify.Player({
-		name: 'Web Playback SDK',
-		getOAuthToken: (cb) => {
-			cb(token);
-		},
-		volume: 0.5,
-	});
-
-	player.addListener('ready', async ({ device_id }) => {
-		console.log('Ready with Device ID', device_id);
-		isActive.value = true;
-		await setDevice(device_id); // Ustawienie aktualnego urządzenia
-	});
-
-	player.addListener('not_ready', ({ device_id }) => {
-		console.log('Device ID has gone offline', device_id);
-		isActive.value = false;
-	});
-
-	player.addListener('player_state_changed', (state) => {
-		if (!state) {
-			return;
-		}
-		console.log('Player State Changed:', state);
-		currentTime.value = state.position / 1000;
-		isPlaying.value = !state.paused;
-		playerStore.setCurrentTrack(state.track_window.current_track);
-		player?.getCurrentState().then((state) => {
-			isActive.value = !!state;
-		});
-	});
-
-	player.connect().then((success) => {
-		if (success) {
-			console.log('The Web Playback SDK successfully connected to Spotify!');
-			playerStore.setPlayer(player); // Ustawienie instancji odtwarzacza w store
-		} else {
-			console.error('The Web Playback SDK could not connect to Spotify');
-		}
-	});
-};
 
 onMounted(async () => {
 	console.log('PlayerBar component mounted');
@@ -102,28 +31,16 @@ onMounted(async () => {
 		window.onSpotifyWebPlaybackSDKReady = onSpotifyWebPlaybackSDKReady;
 		await loadSpotifySDK();
 	} else {
-		initPlayer();
+		playerStore.initPlayer();
 	}
 });
 
 onBeforeUnmount(() => {
 	console.log('PlayerBar component before unmount');
-	if (player) {
-		player.disconnect();
+	if (playerStore.player) {
+		playerStore.player.disconnect();
 	}
 });
-
-const togglePlay = () => {
-	player?.togglePlay();
-};
-
-const nextTrack = () => {
-	player?.nextTrack();
-};
-
-const previousTrack = () => {
-	player?.previousTrack();
-};
 
 const onTimeUpdate = (event: Event) => {
 	currentTime.value = (event.target as HTMLAudioElement).currentTime;
@@ -146,10 +63,14 @@ const onTimeUpdate = (event: Event) => {
 					{{ currentTrack?.artists[0]?.name }}
 				</p>
 			</div>
-			<button @click="previousTrack" class="p-2 rounded bg-neutral-800">
+			<button
+				@click="playerStore.previousTrack"
+				class="p-2 rounded bg-neutral-800">
 				<Icon icon="mdi:skip-previous" class="text-2xl" />
 			</button>
-			<button @click="togglePlay" class="p-2 rounded bg-neutral-800">
+			<button
+				@click="playerStore.togglePlay"
+				class="p-2 rounded bg-neutral-800">
 				<div v-if="isPlaying">
 					<Icon icon="mdi:pause" class="text-2xl" />
 				</div>
@@ -157,7 +78,7 @@ const onTimeUpdate = (event: Event) => {
 					<Icon icon="mdi:play" class="text-2xl" />
 				</div>
 			</button>
-			<button @click="nextTrack" class="p-2 rounded bg-neutral-800">
+			<button @click="playerStore.nextTrack" class="p-2 rounded bg-neutral-800">
 				<Icon icon="mdi:skip-next" class="text-2xl" />
 			</button>
 		</div>
