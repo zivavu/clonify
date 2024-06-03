@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 	const id = query.id as string;
 
 	try {
-		const trackInfo = await api.tracks.get('id');
+		const trackInfo = await api.tracks.get(id);
 		return trackInfo;
 	} catch (error) {
 		console.error(error);
