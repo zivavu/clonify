@@ -38,6 +38,7 @@ const playTrack = async () => {
 	const player = playerStore.player;
 	if (player) {
 		const state = await player.getCurrentState();
+		console.log(state);
 		if (state) {
 			const { current_track } = state.track_window;
 			if (current_track.uri !== props.track.uri) {

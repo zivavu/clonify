@@ -4,12 +4,7 @@ import { defineProps, type HTMLAttributes } from 'vue';
 
 type ProfileItem = Artist;
 
-const {
-	items,
-	title,
-	type,
-	class: additionalClass,
-} = defineProps<{
+const props = defineProps<{
 	items: ProfileItem[];
 	title: string;
 	type: 'artist' | 'profile';
@@ -23,7 +18,7 @@ const {
 
 		<div v-if="items?.length" class="p-2">
 			<div
-				:class="['grid', additionalClass]"
+				:class="['grid', props.class]"
 				style="
 					grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 					grid-auto-rows: 0;

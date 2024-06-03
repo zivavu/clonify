@@ -2,7 +2,7 @@
 import { Icon } from '@iconify/vue';
 import type { Track } from '@spotify/web-api-ts-sdk';
 
-const { topResult } = defineProps<{
+const props = defineProps<{
 	topResult: Track;
 }>();
 </script>

@@ -7,7 +7,7 @@ const authStore = useAuthStore();
 
 const isLoggedIn = computed(() => !!authStore.accessToken);
 
-onBeforeMount(async () => {
+onMounted(async () => {
 	authStore.initializeTokens();
 });
 </script>

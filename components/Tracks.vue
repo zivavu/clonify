@@ -3,7 +3,7 @@ import type { Track as TrackType } from '@spotify/web-api-ts-sdk';
 import { defineProps } from 'vue';
 import Track from '~/components/Track.vue';
 
-const { tracks } = defineProps<{ tracks: TrackType[] }>();
+const props = defineProps<{ tracks: TrackType[] }>();
 </script>
 
 <template>

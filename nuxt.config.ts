@@ -6,8 +6,4 @@ export default defineNuxtConfig({
 		prefix: '',
 		componentDir: './components/ui',
 	},
-
-	vue: {
-		propsDestructure: true,
-	},
 });

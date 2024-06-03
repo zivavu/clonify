@@ -3,7 +3,7 @@ import type { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk';
 import { defineProps } from 'vue';
 import MediaList from '~/components/MediaList.vue';
 
-const { playlists } = defineProps<{
+const props = defineProps<{
 	playlists: SimplifiedPlaylist[];
 }>();
 </script>
