@@ -22,8 +22,7 @@ const performSearch = debounce(() => {
 			class="py-6 pl-10 border-none w-80 bg-foreground"
 			v-model="searchQuery"
 			autocomplete="off"
-			@input="performSearch"
-			@onfocus="() => !searchQuery.trim() && router.push('/search')" />
+			@input="performSearch" />
 		<span
 			class="absolute inset-y-0 flex items-center justify-center px-2 start-0">
 			<Icon icon="ri:search-line" class="text-2xl" />

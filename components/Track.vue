@@ -13,7 +13,7 @@ const isHovered = ref(false);
 const playerStore = usePlayerStore();
 
 const playTrack = async () => {
-	await playerStore.playTrack(props.track);
+	await playerStore.playTrackSingleTrack(props.track);
 };
 
 const toggleHover = (state: boolean) => {

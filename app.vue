@@ -3,11 +3,12 @@ import NavBar from './components/nav/NavBar.vue';
 import Sidebar from './components/nav/Sidebar.vue';
 import PlayerBar from './components/PlayerBar.vue';
 
-const authStore = useAuthStore();
-
-const isLoggedIn = clientSpotifyApi.getAccessToken();
-
-console.log(isLoggedIn, 'loggedIn');
+useHead({
+	title: 'Cloanify - Spotify Clone',
+	bodyAttrs: {
+		class: 'dark',
+	},
+});
 </script>
 
 <template>

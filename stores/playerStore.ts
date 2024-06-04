@@ -8,6 +8,7 @@ export const usePlayerStore = defineStore('player', {
 		isPlaying: false,
 		isActive: false,
 		currentTime: 0,
+		duration: 0,
 		device_id: null as string | null,
 	}),
 	actions: {
@@ -44,7 +45,9 @@ export const usePlayerStore = defineStore('player', {
 				}
 				this.currentTime = state.position / 1000;
 				this.isPlaying = !state.paused;
-				this.setCurrentTrack(state.track_window.current_track);
+				const currentTrack = state.track_window.current_track;
+				this.setCurrentTrack(currentTrack);
+				this.setDuration(currentTrack.duration_ms / 1000);
 				player.getCurrentState().then((state) => {
 					this.isActive = !!state;
 				});
@@ -92,28 +95,25 @@ export const usePlayerStore = defineStore('player', {
 				this.device_id || undefined
 			);
 		},
-		async playTrack(track: Spotify.Track | Track, contextUri?: string) {
+		async playTrackSingleTrack(track: Track) {
 			if (!this.device_id) return;
-			if (this.currentTrack?.id === track.id && this.isPlaying) {
-				const track = await clientSpotifyApi.player.getCurrentlyPlayingTrack();
-				this.currentTime = track.progress_ms;
-				await clientSpotifyApi.player.pausePlayback(this.device_id);
-				return;
-			}
+
 			clientSpotifyApi.player.startResumePlayback(
 				this.device_id,
-				contextUri,
-				[track.uri],
 				undefined,
-				this.currentTime
+				undefined,
+				undefined,
+				this.currentTime * 1000
 			);
-			console.log(this.currentTime);
 		},
 		setCurrentTrack(track: Spotify.Track | Track) {
 			this.currentTrack = track;
 		},
 		setPlayer(player: Spotify.Player | null) {
 			this.player = player;
+		},
+		setDuration(duration: number) {
+			this.duration = duration;
 		},
 		togglePlay() {
 			this.player?.togglePlay();
