@@ -19,6 +19,10 @@ const playTrack = async () => {
 const toggleHover = (state: boolean) => {
 	isHovered.value = state;
 };
+
+const isPlaying = computed(
+	() => playerStore.currentTrack?.id === props.track.id
+);
 </script>
 
 <template>
@@ -33,10 +37,13 @@ const toggleHover = (state: boolean) => {
 					:src="track.album.images[0]?.url"
 					alt="Cover Art"
 					class="w-12 h-12 rounded" />
-				<Icon
+				<div
 					v-if="isHovered"
-					icon="ic:round-play-circle"
-					class="absolute inset-0 m-auto text-4xl text-white bg-opacity-50" />
+					class="absolute top-0 z-10 w-full h-full backdrop-brightness-50">
+					<Icon
+						:icon="`${isPlaying ? 'ic:round-pause' : 'flowbite:play-solid'}`"
+						class="absolute inset-0 m-auto text-4xl text-white" />
+				</div>
 			</NuxtLink>
 			<div>
 				<NuxtLink

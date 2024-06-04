@@ -20,6 +20,6 @@ console.log(isLoggedIn, 'loggedIn');
 				<NuxtPage />
 			</div>
 		</div>
-		<PlayerBar />
+		<PlayerBar class="mt-auto" />
 	</div>
 </template>

@@ -78,7 +78,7 @@ export const usePlayerStore = defineStore('player', {
 					},
 					body: JSON.stringify({
 						device_ids: [device_id],
-						play: true,
+						play: false,
 					}),
 				});
 				console.log(`Set device to ${device_id}`);
@@ -87,30 +87,27 @@ export const usePlayerStore = defineStore('player', {
 			}
 		},
 		async addToQueue(trackUri: string) {
-			const token = await this.getAccessToken;
-
-			if (!token) return;
-
-			try {
-				console.log(`Adding ${trackUri} to queue`);
-				await $fetch(`https://api.spotify.com/v1/me/player/queue`, {
-					method: 'POST',
-					params: { uri: trackUri },
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-Type': 'application/json',
-					},
-				});
-				console.log(`Added ${trackUri} to queue`);
-			} catch (error) {
-				console.error('Failed to add to queue', error);
-			}
+			clientSpotifyApi.player.addItemToPlaybackQueue(
+				trackUri,
+				this.device_id || undefined
+			);
 		},
-		async playTrack(track: Spotify.Track | Track) {
+		async playTrack(track: Spotify.Track | Track, contextUri?: string) {
 			if (!this.device_id) return;
-			clientSpotifyApi.player.startResumePlayback(this.device_id, undefined, [
-				track.uri,
-			]);
+			if (this.currentTrack?.id === track.id && this.isPlaying) {
+				const track = await clientSpotifyApi.player.getCurrentlyPlayingTrack();
+				this.currentTime = track.progress_ms;
+				await clientSpotifyApi.player.pausePlayback(this.device_id);
+				return;
+			}
+			clientSpotifyApi.player.startResumePlayback(
+				this.device_id,
+				contextUri,
+				[track.uri],
+				undefined,
+				this.currentTime
+			);
+			console.log(this.currentTime);
 		},
 		setCurrentTrack(track: Spotify.Track | Track) {
 			this.currentTrack = track;
