@@ -1,9 +1,8 @@
 import { defineWrappedResponseHandler } from '~/server/utils/apiRouteHandler';
-import { api } from '~/utils/spotify';
+import { serverSpotifyApi } from '../../serverSpotifyApi';
 
 export default defineWrappedResponseHandler(async (event) => {
 	const artistId = event?.context?.params?.id;
-	console.log('id', event.context.params?.id);
 
 	if (!artistId) {
 		return createError({
@@ -12,7 +11,7 @@ export default defineWrappedResponseHandler(async (event) => {
 		});
 	}
 
-	const artist = await api.artists.get(artistId);
+	const artist = await serverSpotifyApi.artists.get(artistId);
 
 	return artist;
 });

@@ -4,7 +4,6 @@ import { defineProps } from 'vue';
 import Track from '~/components/Track.vue';
 
 const props = defineProps<{ tracks: TrackType[] }>();
-console.log(props);
 </script>
 
 <template>

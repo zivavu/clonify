@@ -2,7 +2,6 @@
 import { Icon } from '@iconify/vue';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { usePlayerStore } from '~/stores/playerStore';
-import { formatTime } from '~/utils/formatTime';
 
 // Pinia store for player state
 const playerStore = usePlayerStore();
@@ -49,53 +48,52 @@ const onTimeUpdate = (event: Event) => {
 
 <template>
 	<div
-		class="fixed bottom-0 flex items-center w-full px-4 py-2 text-white bg-gray-900"
+		class="sticky bottom-0 left-0 right-0 flex items-center justify-between p-4 text-white bg-gray-800 rounded-t-xl"
 		v-if="isActive">
-		<div class="flex items-center w-full space-x-4">
+		<div class="flex items-center gap-4">
 			<img
 				v-if="currentTrack?.album?.images[0]?.url"
 				:src="currentTrack.album.images[0].url"
-				class="object-cover w-16 h-16"
-				alt="Track Cover" />
-			<div class="flex flex-col justify-center flex-1">
-				<p class="text-lg font-semibold">{{ currentTrack?.name }}</p>
-				<p class="text-sm text-gray-400">
-					{{ currentTrack?.artists[0]?.name }}
+				alt="Cover Art"
+				class="w-16 h-16 rounded" />
+			<div>
+				<h3 class="text-xl">{{ currentTrack?.name }}</h3>
+				<p>
+					{{ currentTrack?.artists[0]?.name }} -
+					{{ currentTrack?.album.name }}
 				</p>
 			</div>
-			<button
-				@click="playerStore.previousTrack"
-				class="p-2 rounded bg-neutral-800">
-				<Icon icon="mdi:skip-previous" class="text-2xl" />
+		</div>
+
+		<div class="flex items-center gap-4">
+			<button @click="playerStore.previousTrack">
+				<Icon
+					icon="mdi:skip-previous-circle"
+					class="w-10 h-10 text-white hover:text-neutral-400" />
 			</button>
-			<button
-				@click="playerStore.togglePlay"
-				class="p-2 rounded bg-neutral-800">
-				<div v-if="isPlaying">
-					<Icon icon="mdi:pause" class="text-2xl" />
-				</div>
-				<div v-else>
-					<Icon icon="mdi:play" class="text-2xl" />
-				</div>
+			<button @click="playerStore.togglePlay">
+				<Icon
+					:icon="isPlaying ? 'ic:round-pause-circle' : 'ic:round-play-circle'"
+					class="w-10 h-10 text-white hover:text-neutral-400" />
 			</button>
-			<button @click="playerStore.nextTrack" class="p-2 rounded bg-neutral-800">
-				<Icon icon="mdi:skip-next" class="text-2xl" />
+			<button @click="playerStore.nextTrack">
+				<Icon
+					icon="mdi:skip-next-circle"
+					class="w-10 h-10 text-white hover:text-neutral-400" />
 			</button>
 		</div>
-		<div class="flex items-center space-x-2">
-			<p>{{ formatTime(currentTime * 1000) }}</p>
-			<input
-				type="range"
-				class="w-full"
-				:max="currentTrack ? currentTrack.duration_ms / 1000 : 100"
-				v-model="currentTime"
-				@input="onTimeUpdate" />
-			<p>{{ formatTime(currentTrack?.duration_ms || 0) }}</p>
+
+		<div class="flex items-center gap-4">
+			<button>
+				<Icon
+					icon="mdi:heart-outline"
+					class="w-8 h-8 text-white hover:text-neutral-400" />
+			</button>
+			<button>
+				<Icon
+					icon="mdi:playlist-plus"
+					class="w-8 h-8 text-white hover:text-neutral-400" />
+			</button>
 		</div>
-	</div>
-	<div
-		v-else
-		class="fixed bottom-0 flex items-center w-full px-4 py-2 text-white bg-gray-900">
-		<p class="flex-1 text-center">Loading Spotify Web Playback SDK...</p>
 	</div>
 </template>

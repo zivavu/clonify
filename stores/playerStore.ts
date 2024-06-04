@@ -1,6 +1,5 @@
 import type { Track } from '@spotify/web-api-ts-sdk';
 import { defineStore } from 'pinia';
-import { useAuthStore } from '~/stores/authStore';
 
 export const usePlayerStore = defineStore('player', {
 	state: () => ({
@@ -9,16 +8,19 @@ export const usePlayerStore = defineStore('player', {
 		isPlaying: false,
 		isActive: false,
 		currentTime: 0,
+		device_id: null as string | null,
 	}),
 	actions: {
 		async initPlayer() {
-			const authStore = useAuthStore();
-			const token = authStore.accessToken;
+			const token = await this.getAccessToken;
 
-			if (!token) return;
+			if (!token) {
+				clientSpotifyApi.authenticate();
+				return;
+			}
 
 			const player = new Spotify.Player({
-				name: 'Web Playback SDK',
+				name: 'Clonify Player',
 				getOAuthToken: (cb) => {
 					cb(token);
 				},
@@ -62,8 +64,9 @@ export const usePlayerStore = defineStore('player', {
 			this.setPlayer(player);
 		},
 		async setDevice(device_id: string) {
-			const authStore = useAuthStore();
-			const token = authStore.accessToken;
+			this.device_id = device_id;
+			const token = await this.getAccessToken;
+
 			if (!token) return;
 
 			try {
@@ -75,7 +78,7 @@ export const usePlayerStore = defineStore('player', {
 					},
 					body: JSON.stringify({
 						device_ids: [device_id],
-						play: false,
+						play: true,
 					}),
 				});
 				console.log(`Set device to ${device_id}`);
@@ -84,8 +87,8 @@ export const usePlayerStore = defineStore('player', {
 			}
 		},
 		async addToQueue(trackUri: string) {
-			const authStore = useAuthStore();
-			const token = authStore.accessToken;
+			const token = await this.getAccessToken;
+
 			if (!token) return;
 
 			try {
@@ -104,13 +107,10 @@ export const usePlayerStore = defineStore('player', {
 			}
 		},
 		async playTrack(track: Spotify.Track | Track) {
-			const player = this.player;
-			if (player) {
-				console.log('Adding to queue');
-				await this.addToQueue(track.uri);
-				await player.nextTrack();
-				this.setCurrentTrack(track);
-			}
+			if (!this.device_id) return;
+			clientSpotifyApi.player.startResumePlayback(this.device_id, undefined, [
+				track.uri,
+			]);
 		},
 		setCurrentTrack(track: Spotify.Track | Track) {
 			this.currentTrack = track;
@@ -126,6 +126,13 @@ export const usePlayerStore = defineStore('player', {
 		},
 		previousTrack() {
 			this.player?.previousTrack();
+		},
+	},
+	getters: {
+		getAccessToken: async () => {
+			const getTokenRes = await clientSpotifyApi.getAccessToken();
+			const token = getTokenRes?.access_token;
+			return token;
 		},
 	},
 });

@@ -6,4 +6,10 @@ export default defineNuxtConfig({
 		prefix: '',
 		componentDir: './components/ui',
 	},
+	runtimeConfig: {
+		public: {
+			spotifyClientId: process.env.SPOTIFY_CLIENT_ID,
+			spotifyRedirectUri: 'http://localhost:3000',
+		},
+	},
 });

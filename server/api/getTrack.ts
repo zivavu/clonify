@@ -1,12 +1,12 @@
 import { defineEventHandler, getQuery } from 'h3';
-import { api } from '~/utils/spotify';
+import { serverSpotifyApi } from './serverSpotifyApi';
 
 export default defineEventHandler(async (event) => {
 	const query = getQuery(event);
 	const id = query.id as string;
 
 	try {
-		const trackInfo = await api.tracks.get(id);
+		const trackInfo = await serverSpotifyApi.tracks.get(id);
 		return trackInfo;
 	} catch (error) {
 		console.error(error);

@@ -5,11 +5,9 @@ import PlayerBar from './components/PlayerBar.vue';
 
 const authStore = useAuthStore();
 
-const isLoggedIn = computed(() => !!authStore.accessToken);
+const isLoggedIn = clientSpotifyApi.getAccessToken();
 
-onMounted(async () => {
-	authStore.initializeTokens();
-});
+console.log(isLoggedIn, 'loggedIn');
 </script>
 
 <template>
@@ -22,6 +20,6 @@ onMounted(async () => {
 				<NuxtPage />
 			</div>
 		</div>
-		<PlayerBar v-if="isLoggedIn" />
+		<PlayerBar />
 	</div>
 </template>

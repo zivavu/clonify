@@ -19,7 +19,6 @@ const playTrack = async () => {
 const toggleHover = (state: boolean) => {
 	isHovered.value = state;
 };
-console.log(props.track);
 </script>
 
 <template>

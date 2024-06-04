@@ -1,5 +1,5 @@
 import { defineEventHandler, getQuery } from 'h3';
-import { api } from '~/utils/spotify';
+import { serverSpotifyApi } from './serverSpotifyApi';
 
 export default defineEventHandler(async (event) => {
 	const query = getQuery(event);
@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
 	}
 
 	try {
-		const response = await api.search(
+		const response = await serverSpotifyApi.search(
 			searchTerm,
 			['album', 'artist', 'track', 'playlist'],
 			'US',

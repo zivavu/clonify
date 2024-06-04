@@ -1,7 +1,7 @@
 import { defineWrappedResponseHandler } from '~/server/utils/apiRouteHandler';
-import { api } from '~/utils/spotify';
+import { serverSpotifyApi } from './serverSpotifyApi';
 
 export default defineWrappedResponseHandler(async () => {
-	const response = await api.browse.getCategories();
+	const response = await serverSpotifyApi.browse.getCategories();
 	return response;
 });
