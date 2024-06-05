@@ -30,6 +30,7 @@ onMounted(async () => {
 			const colorThief = new ColorThief();
 			const color = colorThief.getColor(image);
 			averageColor.value = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+			console.log(averageColor.value);
 		};
 	}
 });
@@ -37,20 +38,22 @@ onMounted(async () => {
 
 <template>
 	<div v-if="profile">
-		<header>
-			<div>
+		<header
+			:style="{ backgroundColor: averageColor || 'transparent' }"
+			class="flex items-end justify-between p-8 bg-gradient-to-l from-primary via-primary-foreground to-primary-foreground">
+			<div class="flex flex-row items-end gap-4">
 				<img
 					:src="(profile?.images?.length && profile.images[0]?.url) || ''"
 					alt="Artist Image"
 					class="w-32 h-32 rounded-full" />
-				<div style="margin-left: 1.5rem">
-					<h1 class="text-3xl font-bold">{{ profile.name }}</h1>
+				<div class="flex flex-col gap-6">
+					<h1 class="text-5xl font-bold">{{ profile.name }}</h1>
 					<p>{{ profile.followers.total }} Followers</p>
 				</div>
 			</div>
 			<div>
 				<button class="btn btn-play">Play</button>
-				<button class="btn btn-follow">Follow</button>
+				<Button variant="ghost" class="btn btn-follow">Follow</Button>
 				<button class="btn btn-playlist">Add to Playlist</button>
 			</div>
 		</header>

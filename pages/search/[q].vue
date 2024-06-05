@@ -15,7 +15,7 @@ const results = await $fetch<PartialSearchResult>(
 </script>
 
 <template>
-	<div class="flex flex-wrap gap-2 space">
+	<div class="flex flex-wrap gap-2 p-4 space">
 		<div class="w-full">
 			<div class="flex flex-row flex-wrap w-full space-x-4 xl:flex-nowrap">
 				<TopResult

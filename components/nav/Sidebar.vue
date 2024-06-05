@@ -1,4 +1,6 @@
 <script setup>
+import NavLink from './NavLink.vue';
+
 const sidebarItems = [
 	{ icon: 'mage:pin', label: 'Pins', link: '/pins' },
 	{ icon: 'hugeicons:playlist-02', label: 'Playlists', link: '/playlist' },

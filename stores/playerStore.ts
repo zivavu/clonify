@@ -16,7 +16,7 @@ export const usePlayerStore = defineStore('player', {
 			const token = await this.getAccessToken;
 
 			if (!token) {
-				clientSpotifyApi.authenticate();
+				await clientSpotifyApi.authenticate();
 				return;
 			}
 
@@ -123,6 +123,9 @@ export const usePlayerStore = defineStore('player', {
 		},
 		previousTrack() {
 			this.player?.previousTrack();
+		},
+		setCurrentTime(time: number) {
+			this.currentTime = time;
 		},
 	},
 	getters: {

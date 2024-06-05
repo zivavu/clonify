@@ -2,12 +2,14 @@
 import { Icon } from '@iconify/vue';
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { usePlayerStore } from '~/stores/playerStore';
+import { Slider } from './ui/slider';
 
 const playerStore = usePlayerStore();
 const currentTrack = computed(() => playerStore.currentTrack);
 const isPlaying = computed(() => playerStore.isPlaying);
 const isActive = computed(() => playerStore.isActive);
 const currentTime = ref(playerStore.currentTime);
+const currentTimeModel = computed(() => [Math.floor(currentTime.value)]);
 const trackDuration = computed(() => playerStore.duration);
 
 // Load and set up Spotify SDK
@@ -78,7 +80,7 @@ onBeforeUnmount(() => {
 
 const seek = (event: Event) => {
 	const seekTime = (event.target as HTMLInputElement).valueAsNumber;
-	playerStore.player?.seek(seekTime * 1000).then(() => {
+	clientSpotifyApi.player.seekToPosition(seekTime * 1000).then(() => {
 		playerStore.currentTime = seekTime;
 		currentTime.value = seekTime;
 	});
@@ -101,16 +103,13 @@ const formatTime = (seconds: number) => {
 				:src="currentTrack.album.images[0].url"
 				alt="Cover Art"
 				class="w-16 h-16 rounded" />
-			<div>
-				<h3 class="text-xl">{{ currentTrack?.name }}</h3>
-				<p>
-					{{ currentTrack?.artists[0]?.name }} -
-					{{ currentTrack?.album.name }}
-				</p>
+			<div class="w-96">
+				<h3 class="truncate">{{ currentTrack?.name }}</h3>
+				<p>{{ currentTrack?.artists[0]?.name }}</p>
 			</div>
 		</div>
 
-		<div class="flex flex-col items-center flex-1 gap-2">
+		<div class="flex flex-col items-center gap-2">
 			<div class="flex items-center gap-4">
 				<button @click="playerStore.previousTrack">
 					<Icon
@@ -128,17 +127,15 @@ const formatTime = (seconds: number) => {
 						class="w-10 h-10 text-white hover:text-neutral-400" />
 				</button>
 			</div>
-			<div class="flex items-center w-2/3 gap-2">
+			<div class="flex items-center gap-2">
 				<span class="time-display">{{ formatTime(currentTime) }}</span>
-				<input
-					type="range"
-					min="0"
+				<Slider
+					:min="0"
 					:max="trackDuration"
-					step="1"
-					v-model="currentTime"
-					@input="seek"
-					class="w-full seek-bar" />
-				<span class="time-display">{{ formatTime(trackDuration) }}</span>
+					:step="1"
+					v-model="currentTimeModel"
+					class="w-[600px]" />
+				<span>{{ formatTime(trackDuration) }}</span>
 			</div>
 		</div>
 
@@ -156,69 +153,3 @@ const formatTime = (seconds: number) => {
 		</div>
 	</div>
 </template>
-
-<style scoped>
-.time-display {
-	font-size: 0.75rem;
-}
-
-.seek-bar {
-	-webkit-appearance: none;
-	width: 100%;
-	height: 8px;
-	background: rgba(255, 255, 255, 0.3);
-	border-radius: 2px;
-	cursor: pointer;
-	max-width: 700px;
-}
-
-.seek-bar:hover {
-	background: rgba(30, 215, 96, 0.5); /* Greenish color on hover */
-}
-
-.seek-bar::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	width: 12px;
-	height: 12px;
-	border-radius: 50%;
-	background: #1ed760; /* Spotify green */
-	cursor: pointer;
-	transition: background 0.3s ease;
-}
-
-.seek-bar::-webkit-slider-runnable-track {
-	-webkit-appearance: none;
-	height: 8px;
-	background: #ffffff;
-}
-
-.seek-bar::-moz-range-thumb {
-	width: 12px;
-	height: 12px;
-	border-radius: 50%;
-	background: #1ed760; /* Spotify green */
-	cursor: pointer;
-	transition: background 0.3s ease;
-}
-
-.seek-bar::-moz-range-track {
-	height: 8px;
-	background: #ffffff;
-}
-
-.seek-bar::-ms-thumb {
-	width: 12px;
-	height: 12px;
-	border-radius: 50%;
-	background: #1ed760; /* Spotify green */
-	cursor: pointer;
-	transition: background 0.3s ease;
-}
-
-.seek-bar::-ms-track {
-	height: 8px;
-	background: #ffffff;
-	border-color: transparent;
-	color: transparent;
-}
-</style>

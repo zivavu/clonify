@@ -19,10 +19,15 @@ const performSearch = debounce(() => {
 			id="search"
 			type="text"
 			placeholder="Search..."
-			class="py-6 pl-10 border-none w-80 bg-foreground"
+			class="py-6 pl-10 border-none w-80 focus:bg-neutral-900 hover:bg-neutral-900h"
 			v-model="searchQuery"
 			autocomplete="off"
-			@input="performSearch" />
+			@input="performSearch"
+			@focus="
+				() =>
+					(!searchQuery?.trim() && router.push('/search')) ||
+					router.push(`/search/${searchQuery?.trim()}`)
+			" />
 		<span
 			class="absolute inset-y-0 flex items-center justify-center px-2 start-0">
 			<Icon icon="ri:search-line" class="text-2xl" />
