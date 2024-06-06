@@ -19,7 +19,7 @@ const isActive = computed(() => route.path === props.to);
 		:class="
 			cn([
 				'flex items-center p-2.5 space-x-2 transition rounded-xl hover:bg-neutral-800',
-				isActive ? 'text-white bg-neutral-800' : 'text-secondary-foreground',
+				isActive ? 'text-white bg-neutral-800' : 'text-muted-foreground',
 			])
 		">
 		<Icon :icon="props.icon" class="text-3xl" />

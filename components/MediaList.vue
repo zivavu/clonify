@@ -15,7 +15,7 @@ const props = defineProps<{
 </script>
 
 <template>
-	<div class="w-full space-y-1">
+	<div class="w-full space-y-2">
 		<h2 class="text-2xl font-bold">{{ title }}</h2>
 
 		<div v-if="items?.length" class="p-2">

@@ -13,7 +13,7 @@
 		--primary: 0 0% 2.4%;
 		--primary-foreground: 0 0% 100%;
 		--secondary: 0 10% 10%;
-		--secondary-foreground: 0 0% 60%;
+		--secondary-foreground: 0 0% 80%;
 		--muted: -38 10% 15%;
 		--muted-foreground: 0 0% 60%;
 		--accent: -38 10% 15%;
@@ -32,6 +32,6 @@
 		@apply border-border;
 	}
 	body {
-		@apply bg-background text-secondary-foreground;
+		@apply bg-background text-primary-foreground;
 	}
 }

@@ -23,6 +23,7 @@
     "nuxt": "^3.11.2",
     "pinia": "^2.1.7",
     "radix-vue": "^1.8.2",
+    "rgb2hex": "^0.2.5",
     "shadcn-nuxt": "^0.10.4",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",

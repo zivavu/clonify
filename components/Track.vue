@@ -7,6 +7,7 @@ import { formatTime } from '~/utils/formatTime';
 
 const props = defineProps<{
 	track: Track;
+	showArtistName?: Boolean;
 }>();
 
 const isHovered = ref(false);
@@ -62,7 +63,9 @@ const isPlaying = computed(
 							name: 'artist-id',
 							params: { id: encodeURIComponent(track.artists[0]?.id) },
 						}">
-						<p>{{ track.artists[0]?.name }}</p>
+						<p v-show="showArtistName !== false">
+							{{ track.artists[0]?.name }}
+						</p>
 					</NuxtLink>
 				</div>
 			</div>

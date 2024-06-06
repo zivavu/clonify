@@ -8,7 +8,7 @@ const props = defineProps<{
 </script>
 
 <template>
-	<div v-if="topResult" class="relative top-result">
+	<div v-if="topResult" class="relative space-y-2">
 		<h2 class="text-2xl font-bold">Top Result</h2>
 		<NuxtLink
 			:to="{
