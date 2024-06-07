@@ -2,7 +2,7 @@
 import { Icon } from '@iconify/vue';
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { usePlayerStore } from '~/stores/playerStore';
-import { Slider } from './ui/slider';
+import { Slider } from '../ui/slider';
 
 const playerStore = usePlayerStore();
 const currentTrack = computed(() => playerStore.currentTrack);
@@ -85,12 +85,6 @@ const seek = (event: Event) => {
 		currentTime.value = seekTime;
 	});
 };
-
-const formatTime = (seconds: number) => {
-	const minutes = Math.floor(seconds / 60);
-	const secs = Math.floor(seconds % 60);
-	return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-};
 </script>
 
 <template>
@@ -134,7 +128,7 @@ const formatTime = (seconds: number) => {
 					:max="trackDuration"
 					:step="1"
 					v-model="currentTimeModel"
-					class="w-[600px]" />
+					class="[&>span:first-child]:h-1 [&>span:first-child]:bg-white/30 [&_[role=slider]]:bg-white [&_[role=slider]]:w-3 [&_[role=slider]]:h-3 [&_[role=slider]]:border-0 [&>span:first-child_span]:bg-white [&_[role=slider]:focus-visible]:ring-0 [&_[role=slider]:focus-visible]:ring-offset-0 [&_[role=slider]:focus-visible]:scale-105 [&_[role=slider]:focus-visible]:transition-transform w-[600px]" />
 				<span>{{ formatTime(trackDuration) }}</span>
 			</div>
 		</div>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import NavBar from './components/nav/NavBar.vue';
 import Sidebar from './components/nav/Sidebar.vue';
+import PlayerBar from './components/player/PlayerBar.vue';
 
 useHead({
 	title: 'Cloanify - Spotify Clone',
@@ -20,6 +21,6 @@ useHead({
 				<NuxtPage />
 			</div>
 		</div>
-		<!-- <PlayerBar class="mt-auto" /> -->
+		<PlayerBar class="mt-auto" />
 	</div>
 </template>
