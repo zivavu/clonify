@@ -8,6 +8,7 @@ import { formatTime } from '~/utils/formatTime';
 const props = defineProps<{
 	track: Track;
 	showArtistName?: Boolean;
+	trackIndex: number;
 }>();
 
 const isHovered = ref(false);
@@ -20,6 +21,7 @@ const playTrack = async () => {
 const toggleHover = (state: boolean) => {
 	isHovered.value = state;
 };
+console.log(props.track);
 
 const isPlaying = computed(
 	() => playerStore.currentTrack?.id === props.track.id
@@ -33,6 +35,9 @@ const isPlaying = computed(
 		@mouseleave="toggleHover(false)"
 		@dblclick="playTrack">
 		<div class="flex items-center space-x-4">
+			<p v-if="trackIndex" class="px-2 text-gray-400 select-none">
+				{{ trackIndex }}
+			</p>
 			<NuxtLink class="relative cursor-pointer" @click="playTrack">
 				<img
 					:src="track.album.images[0]?.url"
@@ -56,7 +61,11 @@ const isPlaying = computed(
 					<h3 class="text-lg font-semibold">{{ track.name }}</h3>
 				</NuxtLink>
 				<div class="flex items-center space-x-2">
-					<p v-if="track.explicit" class="text-xs font-bold text-red-500">E</p>
+					<p
+						v-if="track.explicit"
+						class="px-1 text-xs text-black rounded-[2px] bg-neutral-500">
+						E
+					</p>
 					<NuxtLink
 						class="hover:underline"
 						:to="{

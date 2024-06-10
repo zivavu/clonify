@@ -16,6 +16,7 @@ const { data: topTracks } = await useFetch<TopTracksResult>(
 );
 const averageColor = ref<string | null>(null);
 const colorsGradient = ref<string>();
+const isShowMore = ref<boolean>(false);
 
 onMounted(async () => {
 	if (profile.value?.images?.length) {
@@ -46,7 +47,7 @@ onMounted(async () => {
 					alt="Artist Image"
 					class="rounded-full shadow-2xl w-60 h-60" />
 				<div class="flex flex-col gap-6">
-					<h1 class="text-5xl font-bold">{{ profile.name }}</h1>
+					<h1 class="font-bold text-8xl">{{ profile.name }}</h1>
 					<p>
 						{{
 							profile.followers.total
@@ -57,20 +58,34 @@ onMounted(async () => {
 					</p>
 				</div>
 			</div>
-			<div>
+			<!-- <div>
 				<button class="btn btn-play">Play</button>
 				<Button variant="ghost" class="btn btn-follow">Follow</Button>
 				<button class="btn btn-playlist">Add to Playlist</button>
-			</div>
+			</div> -->
 		</header>
 	</div>
-	<div>
-		<h2 class="text-2xl font-semibold">Top Tracks</h2>
+	<div class="p-4">
+		<h2 class="text-2xl font-semibold">Popular</h2>
 		<ul>
-			<li v-for="track in topTracks?.tracks" :key="track.id" class="py-2">
-				<Track :track="track" :context-uri="profile?.uri" />
+			<li
+				v-for="(track, i) in topTracks?.tracks.slice(0, isShowMore ? 10 : 5)"
+				:key="track.id"
+				class="py-2">
+				<Track
+					:track="track"
+					:context-uri="profile?.uri"
+					:show-artist-name="false"
+					:track-index="i + 1" />
 			</li>
 		</ul>
+		<Button
+			class="flex flex-row items-center content-center space-x-2"
+			@click="isShowMore = !isShowMore">
+			<p class="text-neutral-300">
+				{{ isShowMore ? 'Show less' : 'Show more' }}
+			</p>
+		</Button>
 	</div>
 </template>
 
