@@ -70,8 +70,7 @@ onMounted(async () => {
 		<ul>
 			<li
 				v-for="(track, i) in topTracks?.tracks.slice(0, isShowMore ? 10 : 5)"
-				:key="track.id"
-				class="py-2">
+				:key="track.id">
 				<Track
 					:track="track"
 					:context-uri="profile?.uri"

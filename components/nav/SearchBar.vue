@@ -14,12 +14,12 @@ const performSearch = debounce(() => {
 </script>
 
 <template>
-	<div class="relative items-center w-full max-w-sm">
+	<div class="relative items-center">
 		<Input
 			id="search"
 			type="text"
 			placeholder="Search..."
-			class="py-6 pl-10 border-none w-80 focus:bg-neutral-900 hover:bg-neutral-900h"
+			class="py-6 pl-10 border-none focus:bg-neutral-900 hover:bg-neutral-900h"
 			v-model="searchQuery"
 			autocomplete="off"
 			@input="performSearch"

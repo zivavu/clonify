@@ -27,9 +27,7 @@ const rightLinks = [
 				:icon="item.icon"
 				:label="item.label"
 				:class="index === 0 ? `w-64 mr-8` : 'pl-6 pr-20'" />
-			<div class="relative max-w-sm">
-				<SearchBar />
-			</div>
+			<SearchBar />
 		</div>
 		<div class="flex space-x-0 lg:space-x-4">
 			<NavLink
