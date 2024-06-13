@@ -3,7 +3,9 @@ import { type Artist, type TopTracksResult } from '@spotify/web-api-ts-sdk';
 import { onMounted, ref } from 'vue';
 
 import ColorThief from 'colorthief';
+import { TabsIndicator } from 'radix-vue';
 import Track from '~/components/Track.vue';
+import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 
 const route = useRoute();
 const artistId = route.params.id as string;
@@ -35,6 +37,13 @@ onMounted(async () => {
 		};
 	}
 });
+const tabs = [
+	{ label: 'Home', value: 'home' },
+	{ label: 'Albums', value: 'albums' },
+	{ label: 'Singles and EPs', value: 'singles' },
+	{ label: 'About', value: 'about' },
+];
+const currentTab = ref(tabs[0].value);
 </script>
 
 <template>
@@ -64,6 +73,24 @@ onMounted(async () => {
 				<button class="btn btn-playlist">Add to Playlist</button>
 			</div> -->
 		</header>
+		<Tabs
+			:model-value="currentTab"
+			@update:model-value="(value) => (currentTab = value.toString())"
+			class="border-b">
+			<TabsList class="relative bg-transparent h-max">
+				<TabsIndicator
+					class="absolute px-3 left-0 h-[2px] bottom-0 w-[--radix-tabs-indicator-size] translate-x-[--radix-tabs-indicator-position] rounded-full transition-[width,transform] duration-300">
+					<div class="w-full h-full bg-[#15883E]" />
+				</TabsIndicator>
+				<TabsTrigger
+					v-for="tab in tabs"
+					:key="tab.value"
+					:value="tab.value"
+					class="p-4 px-6">
+					{{ tab.label }}
+				</TabsTrigger>
+			</TabsList>
+		</Tabs>
 	</div>
 	<div class="p-4">
 		<h2 class="text-2xl font-semibold">Popular</h2>
