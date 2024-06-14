@@ -15,24 +15,21 @@ import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 const route = useRoute();
 const artistId = route.params.id as string;
 
-const { data: profile } = await useFetch<Artist>(
-	`/api/artist/profile/${artistId}`
-);
-const { data: topTracks } = await useFetch<TopTracksResult>(
-	`/api/artist/top-tracks/${artistId}`
-);
+const [profile, topTracks, albums, singles] = await Promise.all([
+	$fetch<Artist>(`/api/artist/profile/${artistId}`),
+	$fetch<TopTracksResult>(`/api/artist/top-tracks/${artistId}`),
+	$fetch<SimplifiedAlbum[]>(`/api/artist/albums/${artistId}`),
+	$fetch<SimplifiedAlbum[]>(`/api/artist/singles/${artistId}`),
+]);
 
-const { data: albums } = await useFetch<SimplifiedAlbum[]>(
-	`/api/artist/albums/${artistId}`
-);
 const averageColor = ref<string | null>(null);
 const colorsGradient = ref<string>();
 
 onMounted(async () => {
-	if (profile.value?.images?.length) {
+	if (profile?.images?.length) {
 		const image = new Image();
 		image.crossOrigin = 'Anonymous';
-		image.src = profile.value.images[0].url;
+		image.src = profile.images[0].url;
 
 		image.onload = () => {
 			const colorThief = new ColorThief();
@@ -45,15 +42,17 @@ onMounted(async () => {
 		};
 	}
 });
+
 const tabs = [
-	{ label: 'Home', value: 'home' },
-	{ label: 'Albums', value: 'albums' },
-	{ label: 'Singles and EPs', value: 'singles' },
-	{ label: 'About', value: 'about' },
+	{ label: 'Tracks', value: 'home', visible: true },
+	{ label: 'Albums', value: 'albums', visible: !!albums?.length },
+	{
+		label: 'Singles and EPs',
+		value: 'singles',
+		visible: !!singles?.length,
+	},
 ];
 const currentTab = ref(tabs[0].value);
-
-console.log(albums);
 </script>
 
 <template>
@@ -94,6 +93,7 @@ console.log(albums);
 				</TabsIndicator>
 				<TabsTrigger
 					v-for="tab in tabs"
+					:style="{ display: tab.visible ? 'flex' : 'none' }"
 					:key="tab.value"
 					:value="tab.value"
 					class="p-4 px-6">
@@ -109,7 +109,10 @@ console.log(albums);
 			title="Popular" />
 	</div>
 	<div class="p-4" v-if="currentTab === 'albums'">
-		<Albums v-if="albums" :albums="albums" />
+		<Albums v-if="albums" :albums="albums" title="" />
+	</div>
+	<div class="p-4" v-if="currentTab === 'singles'">
+		<Albums v-if="singles" :albums="singles" title="Singles" />
 	</div>
 </template>
 

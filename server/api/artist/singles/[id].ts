@@ -11,7 +11,7 @@ export default defineWrappedResponseHandler(async (event) => {
 		});
 	}
 
-	const albums = await serverSpotifyApi.artists.albums(artistId, 'album');
+	const albums = await serverSpotifyApi.artists.albums(artistId, 'single');
 
 	return albums.items;
 });

@@ -9,14 +9,14 @@ type MediaItem = SimplifiedAlbum | SimplifiedPlaylist;
 
 const props = defineProps<{
 	items: MediaItem[];
-	title: string;
+	title?: string;
 	class?: HTMLAttributes['class'];
 }>();
 </script>
 
 <template>
 	<div class="w-full space-y-2">
-		<h2 class="text-2xl font-bold">{{ title }}</h2>
+		<h2 v-if="title" class="text-2xl font-bold">{{ title }}</h2>
 
 		<div v-if="items?.length" class="p-2">
 			<div
@@ -37,7 +37,7 @@ const props = defineProps<{
 						}"
 						class="flex flex-col content-center p-4 space-y-2 rounded-lg hover:bg-neutral-900">
 						<img
-							:src="item.images[0]?.url"
+							:src="item.images[1]?.url"
 							width="192"
 							height="192"
 							alt="Media Cover"
