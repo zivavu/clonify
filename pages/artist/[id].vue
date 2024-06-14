@@ -101,7 +101,6 @@ const currentTab = ref(tabs[0].value);
 				<Track
 					:track="track"
 					:context-uri="profile?.uri"
-					:show-artist-name="false"
 					:track-index="i + 1" />
 			</li>
 		</ul>

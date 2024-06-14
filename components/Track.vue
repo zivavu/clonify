@@ -4,11 +4,12 @@ import type { Track } from '@spotify/web-api-ts-sdk';
 import { defineProps, ref } from 'vue';
 import { usePlayerStore } from '~/stores/playerStore';
 import { formatTime } from '~/utils/formatTime';
+import ArtistLink from './Links/ArtistLink.vue';
 
 const props = defineProps<{
 	track: Track;
-	showArtistName?: Boolean;
-	trackIndex: number;
+	hideArtistName?: Boolean;
+	trackIndex?: number;
 }>();
 
 const isHovered = ref(false);
@@ -26,6 +27,8 @@ console.log(props.track);
 const isPlaying = computed(
 	() => playerStore.currentTrack?.id === props.track.id
 );
+
+const artistsLinks = props.track.artists.slice(0, 2);
 </script>
 
 <template>
@@ -58,7 +61,7 @@ const isPlaying = computed(
 						name: 'track-id',
 						params: { id: encodeURIComponent(track.id) },
 					}">
-					<h3 class="text-lg font-semibold">{{ track.name }}</h3>
+					<h3>{{ track.name }}</h3>
 				</NuxtLink>
 				<div class="flex items-center space-x-2">
 					<p
@@ -66,16 +69,12 @@ const isPlaying = computed(
 						class="px-1 text-xs text-black rounded-[2px] bg-neutral-500">
 						E
 					</p>
-					<NuxtLink
-						class="hover:underline"
-						:to="{
-							name: 'artist-id',
-							params: { id: encodeURIComponent(track.artists[0]?.id) },
-						}">
-						<p v-show="showArtistName !== false">
-							{{ track.artists[0]?.name }}
-						</p>
-					</NuxtLink>
+					<ArtistLink
+						v-for="(artist, index) in artistsLinks"
+						:key="artist.uri"
+						:artist="artist">
+						<span v-if="index + 1 < artistsLinks.length">,</span>
+					</ArtistLink>
 				</div>
 			</div>
 		</div>
