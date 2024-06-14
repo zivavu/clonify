@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { type Artist, type TopTracksResult } from '@spotify/web-api-ts-sdk';
+import {
+	type Artist,
+	type SimplifiedAlbum,
+	type TopTracksResult,
+} from '@spotify/web-api-ts-sdk';
 import { onMounted, ref } from 'vue';
 
 import ColorThief from 'colorthief';
 import { TabsIndicator } from 'radix-vue';
-import Track from '~/components/Track.vue';
+import Albums from '~/components/Albums.vue';
+import Tracks from '~/components/Tracks.vue';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 
 const route = useRoute();
@@ -16,9 +21,12 @@ const { data: profile } = await useFetch<Artist>(
 const { data: topTracks } = await useFetch<TopTracksResult>(
 	`/api/artist/top-tracks/${artistId}`
 );
+
+const { data: albums } = await useFetch<SimplifiedAlbum[]>(
+	`/api/artist/albums/${artistId}`
+);
 const averageColor = ref<string | null>(null);
 const colorsGradient = ref<string>();
-const isShowMore = ref<boolean>(false);
 
 onMounted(async () => {
 	if (profile.value?.images?.length) {
@@ -44,6 +52,8 @@ const tabs = [
 	{ label: 'About', value: 'about' },
 ];
 const currentTab = ref(tabs[0].value);
+
+console.log(albums);
 </script>
 
 <template>
@@ -92,25 +102,14 @@ const currentTab = ref(tabs[0].value);
 			</TabsList>
 		</Tabs>
 	</div>
-	<div class="p-4">
-		<h2 class="text-2xl font-semibold">Popular</h2>
-		<ul>
-			<li
-				v-for="(track, i) in topTracks?.tracks.slice(0, isShowMore ? 10 : 5)"
-				:key="track.id">
-				<Track
-					:track="track"
-					:context-uri="profile?.uri"
-					:track-index="i + 1" />
-			</li>
-		</ul>
-		<Button
-			class="flex flex-row items-center content-center space-x-2"
-			@click="isShowMore = !isShowMore">
-			<p class="text-neutral-300">
-				{{ isShowMore ? 'Show less' : 'Show more' }}
-			</p>
-		</Button>
+	<div class="p-4" v-if="currentTab === 'home'">
+		<Tracks
+			v-if="topTracks?.tracks"
+			:tracks="topTracks?.tracks"
+			title="Popular" />
+	</div>
+	<div class="p-4" v-if="currentTab === 'albums'">
+		<Albums v-if="albums" :albums="albums" />
 	</div>
 </template>
 

@@ -22,7 +22,6 @@ const playTrack = async () => {
 const toggleHover = (state: boolean) => {
 	isHovered.value = state;
 };
-console.log(props.track);
 
 const isPlaying = computed(
 	() => playerStore.currentTrack?.id === props.track.id

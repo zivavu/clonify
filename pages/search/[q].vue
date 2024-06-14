@@ -7,7 +7,7 @@ import Albums from '~/components/Albums.vue';
 import Artists from '~/components/Artists.vue';
 import Playlists from '~/components/Playlists.vue';
 import TopResult from '~/components/TopResult.vue';
-import Track from '~/components/Track.vue';
+import Tracks from '~/components/Tracks.vue';
 
 const results = await $fetch<PartialSearchResult>(
 	`/api/search?q=${useRoute().params.q}`
@@ -21,16 +21,11 @@ const results = await $fetch<PartialSearchResult>(
 				<TopResult
 					v-if="results?.tracks?.items?.length"
 					:top-result="results?.tracks?.items[0]" />
-				<div class="w-full space-y-2">
-					<h2 class="text-2xl font-bold">Songs</h2>
-					<ul>
-						<li
-							v-for="(track, index) in results?.tracks?.items.slice(1, 5)"
-							:key="index">
-							<Track :track="track" />
-						</li>
-					</ul>
-				</div>
+				<Tracks
+					v-if="results?.tracks?.items"
+					:tracks="results?.tracks?.items.slice(0, 4)"
+					title="Tracks"
+					:context-uri="results?.tracks?.items[0]?.album?.uri" />
 			</div>
 			<Artists
 				v-if="results?.artists?.items"
