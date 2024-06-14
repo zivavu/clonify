@@ -3,14 +3,14 @@ import type {
 	SimplifiedAlbum,
 	SimplifiedPlaylist,
 } from '@spotify/web-api-ts-sdk';
-import { defineProps, type HTMLAttributes } from 'vue';
+import { defineProps } from 'vue';
 
 type MediaItem = SimplifiedAlbum | SimplifiedPlaylist;
 
 const props = defineProps<{
 	items: MediaItem[];
 	title?: string;
-	class?: HTMLAttributes['class'];
+	multipleRows?: boolean;
 }>();
 </script>
 
@@ -20,12 +20,8 @@ const props = defineProps<{
 
 		<div v-if="items?.length" class="p-2">
 			<div
-				:class="['grid']"
-				style="
-					grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-					grid-auto-rows: 0;
-					grid-template-rows: 1fr;
-				">
+				class="grid-container"
+				:style="`grid-auto-rows: ${multipleRows ? 'auto' : '0'}`">
 				<div
 					v-for="(item, index) in items"
 					:key="index"
@@ -59,3 +55,11 @@ const props = defineProps<{
 		</div>
 	</div>
 </template>
+
+<style scoped>
+.grid-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	grid-template-rows: 1fr;
+}
+</style>

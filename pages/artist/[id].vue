@@ -8,7 +8,7 @@ import { onMounted, ref } from 'vue';
 
 import ColorThief from 'colorthief';
 import { TabsIndicator } from 'radix-vue';
-import Albums from '~/components/Albums.vue';
+import MediaList from '~/components/MediaList.vue';
 import Tracks from '~/components/Tracks.vue';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 
@@ -52,6 +52,7 @@ const tabs = [
 		visible: !!singles?.length,
 	},
 ];
+
 const currentTab = ref(tabs[0].value);
 </script>
 
@@ -84,7 +85,7 @@ const currentTab = ref(tabs[0].value);
 		</header>
 		<Tabs
 			:model-value="currentTab"
-			@update:model-value="(value) => (currentTab = value.toString())"
+			@update:model-value="(value:string) => (currentTab = value.toString())"
 			class="border-b">
 			<TabsList class="relative bg-transparent h-max">
 				<TabsIndicator
@@ -109,10 +110,14 @@ const currentTab = ref(tabs[0].value);
 			title="Popular" />
 	</div>
 	<div class="p-4" v-if="currentTab === 'albums'">
-		<Albums v-if="albums" :albums="albums" title="" />
+		<MediaList v-if="albums" :items="albums" title="" multipleRows="true" />
 	</div>
 	<div class="p-4" v-if="currentTab === 'singles'">
-		<Albums v-if="singles" :albums="singles" title="Singles" />
+		<MediaList
+			v-if="singles"
+			:items="singles"
+			title="Singles"
+			multipleRows="true" />
 	</div>
 </template>
 
