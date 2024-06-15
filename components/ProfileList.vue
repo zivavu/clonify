@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Icon } from '@iconify/vue';
 import type { Artist } from '@spotify/web-api-ts-sdk';
 import { defineProps, type HTMLAttributes } from 'vue';
 
@@ -39,6 +40,9 @@ const props = defineProps<{
 							:src="item.images[0]?.url"
 							alt="Profile Image"
 							class="block object-cover w-full rounded-full aspect-square" />
+						<div v-else class="flex items-center justify-center w-full h-40">
+							<Icon icon="hugeicons:user" class="text-7xl text-neutral-300" />
+						</div>
 						<p class="w-full truncate">
 							{{ item.name }}
 						</p>

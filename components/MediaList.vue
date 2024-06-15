@@ -33,7 +33,7 @@ const props = defineProps<{
 						}"
 						class="flex flex-col content-center p-4 space-y-2 rounded-lg hover:bg-neutral-900">
 						<img
-							:src="item.images[1]?.url"
+							:src="item.images[1]?.url || item.images[0].url"
 							width="192"
 							height="192"
 							alt="Media Cover"

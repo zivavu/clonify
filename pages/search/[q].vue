@@ -22,7 +22,7 @@ const results = await $fetch<PartialSearchResult>(
 					:top-result="results?.tracks?.items[0]" />
 				<Tracks
 					v-if="results?.tracks?.items"
-					:tracks="results?.tracks?.items.slice(0, 4)"
+					:tracks="results?.tracks?.items.slice(1, 5)"
 					title="Tracks"
 					:context-uri="results?.tracks?.items[0]?.album?.uri" />
 			</div>
@@ -33,11 +33,14 @@ const results = await $fetch<PartialSearchResult>(
 			<MediaList
 				v-if="results?.albums?.items"
 				:items="results?.albums?.items"
-				class="min-w-full" />
+				class="min-w-full"
+				title="Albums" />
 			<MediaList
 				v-if="results?.playlists"
 				:items="results?.playlists?.items as SimplifiedPlaylist[]"
-				class="min-w-full" />
+				class="min-w-full"
+				:multiple-rows="false"
+				title="Playlists" />
 		</div>
 	</div>
 </template>

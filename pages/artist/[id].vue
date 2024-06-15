@@ -44,7 +44,7 @@ onMounted(async () => {
 });
 
 const tabs = [
-	{ label: 'Tracks', value: 'home', visible: true },
+	{ label: 'Popular Tracks', value: 'home', visible: true },
 	{ label: 'Albums', value: 'albums', visible: !!albums?.length },
 	{
 		label: 'Singles and EPs',
@@ -85,7 +85,7 @@ const currentTab = ref(tabs[0].value);
 		</header>
 		<Tabs
 			:model-value="currentTab"
-			@update:model-value="(value:string) => (currentTab = value.toString())"
+			@update:model-value="(value) => (currentTab = value.toString())"
 			class="border-b">
 			<TabsList class="relative bg-transparent h-max">
 				<TabsIndicator
@@ -104,20 +104,13 @@ const currentTab = ref(tabs[0].value);
 		</Tabs>
 	</div>
 	<div class="p-4" v-if="currentTab === 'home'">
-		<Tracks
-			v-if="topTracks?.tracks"
-			:tracks="topTracks?.tracks"
-			title="Popular" />
+		<Tracks v-if="topTracks?.tracks" :tracks="topTracks?.tracks" title="" />
 	</div>
 	<div class="p-4" v-if="currentTab === 'albums'">
-		<MediaList v-if="albums" :items="albums" title="" multipleRows="true" />
+		<MediaList v-if="albums" :items="albums" title="" :multipleRows="true" />
 	</div>
 	<div class="p-4" v-if="currentTab === 'singles'">
-		<MediaList
-			v-if="singles"
-			:items="singles"
-			title="Singles"
-			multipleRows="true" />
+		<MediaList v-if="singles" :items="singles" title="" :multipleRows="true" />
 	</div>
 </template>
 

@@ -12,7 +12,7 @@ const props = defineProps<{
 
 <template>
 	<div v-if="tracks?.length" class="w-full space-y-4">
-		<h2 class="text-2xl font-bold">{{ title || 'Tracks' }}</h2>
+		<h2 class="text-2xl font-bold">{{ title || '' }}</h2>
 		<ul>
 			<li v-for="(track, index) in tracks" :key="index">
 				<Track :track="track" :contextUri="props.contextUri" />
