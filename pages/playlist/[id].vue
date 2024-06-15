@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const trackUri = route.params.uri;
+const trackUri = route.params.id;
 </script>
 
 <template>

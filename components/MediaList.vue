@@ -28,8 +28,8 @@ const props = defineProps<{
 					style="overflow-y: hidden">
 					<NuxtLink
 						:to="{
-							name: item.type === 'album' ? 'album-uri' : 'playlist-uri',
-							params: { uri: encodeURIComponent(item.uri) },
+							name: item.type === 'album' ? 'album-id' : 'playlist-id',
+							params: { id: encodeURIComponent(item.id) },
 						}"
 						class="flex flex-col content-center p-4 space-y-2 rounded-lg hover:bg-neutral-900">
 						<img
