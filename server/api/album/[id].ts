@@ -1,5 +1,5 @@
 import { defineWrappedResponseHandler } from '~/server/utils/apiRouteHandler';
-import { serverSpotifyApi } from './serverSpotifyApi';
+import { serverSpotifyApi } from '../serverSpotifyApi';
 
 export default defineWrappedResponseHandler(async (event) => {
 	const albumId = event?.context?.params?.id;

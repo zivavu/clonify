@@ -21,7 +21,7 @@ const props = defineProps<{
 				alt="Cover Art"
 				class="w-24 h-24 rounded" />
 			<div class="mb-4">
-				<h3 class="text-3xl font-semibold">{{ topResult.name }}</h3>
+				<h3 class="text-3xl font-bold">{{ topResult.name }}</h3>
 				<p>{{ topResult.artists[0].name }}</p>
 			</div>
 			<button class="absolute z-10 bottom-4 right-4">

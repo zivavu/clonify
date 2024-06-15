@@ -1,4 +1,4 @@
-import type { Track } from '@spotify/web-api-ts-sdk';
+import type { SimplifiedTrack, Track } from '@spotify/web-api-ts-sdk';
 import { defineStore } from 'pinia';
 
 export const usePlayerStore = defineStore('player', {
@@ -95,7 +95,7 @@ export const usePlayerStore = defineStore('player', {
 				this.device_id || undefined
 			);
 		},
-		async playTrackSingleTrack(track: Track) {
+		async playTrackSingleTrack(track: SimplifiedTrack) {
 			if (!this.device_id) return;
 
 			clientSpotifyApi.player.startResumePlayback(

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import type { Track } from '@spotify/web-api-ts-sdk';
+import type { SimplifiedTrack } from '@spotify/web-api-ts-sdk';
 import { defineProps, ref } from 'vue';
 import { usePlayerStore } from '~/stores/playerStore';
 import { formatTime } from '~/utils/formatTime';
 import ArtistLink from './Links/ArtistLink.vue';
 
 const props = defineProps<{
-	track: Track;
+	track: SimplifiedTrack;
 	hideArtistName?: Boolean;
 	trackIndex?: number;
 }>();
@@ -32,7 +32,7 @@ const artistsLinks = props.track.artists.slice(0, 2);
 
 <template>
 	<div
-		class="flex items-center justify-between w-full p-2 pr-4 space-x-6 rounded-lg hover:bg-neutral-900"
+		class="flex items-center justify-between w-full p-2 pr-4 space-x-6 rounded-lg hover:bg-neutral-800"
 		@mouseover="toggleHover(true)"
 		@mouseleave="toggleHover(false)"
 		@dblclick="playTrack">
@@ -40,22 +40,7 @@ const artistsLinks = props.track.artists.slice(0, 2);
 			<p v-if="trackIndex" class="px-2 text-gray-400 select-none">
 				{{ trackIndex }}
 			</p>
-			<NuxtLink
-				v-if="track?.album?.images[0]?.url"
-				class="relative cursor-pointer"
-				@click="playTrack">
-				<img
-					:src="track?.album?.images[0]?.url"
-					alt="Cover Art"
-					class="w-12 h-12 rounded" />
-				<div
-					v-if="isHovered"
-					class="absolute top-0 z-10 w-full h-full backdrop-brightness-50">
-					<Icon
-						:icon="`${isPlaying ? 'ic:round-pause' : 'flowbite:play-solid'}`"
-						class="absolute inset-0 m-auto text-4xl text-white" />
-				</div>
-			</NuxtLink>
+
 			<div>
 				<NuxtLink
 					class="hover:underline"
@@ -82,11 +67,11 @@ const artistsLinks = props.track.artists.slice(0, 2);
 		</div>
 		<div class="flex items-center space-x-4">
 			<button
-				class="p-2 rounded bg-neutral-800 text-neutral-100 hover:bg-neutral-700">
+				class="p-2 rounded bg-neutral-700 text-neutral-100 hover:bg-neutral-700">
 				<Icon icon="mdi:heart-outline" />
 			</button>
 			<button
-				class="p-2 rounded bg-neutral-800 text-neutral-100 hover:bg-neutral-700">
+				class="p-2 rounded bg-neutral-700 text-neutral-100 hover:bg-neutral-700">
 				<Icon icon="mdi:playlist-plus" />
 			</button>
 			<p class="text-sm text-gray-400">{{ formatTime(track.duration_ms) }}</p>
