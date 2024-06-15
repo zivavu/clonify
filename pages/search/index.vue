@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useDiscoverStore } from '~/stores/discoverStore';
+import type { Category } from '@spotify/web-api-ts-sdk';
 
-const discoverStore = useDiscoverStore();
-const categories = computed(() => discoverStore.categories);
-
-await discoverStore.fetchCategories();
+const { data: categories } = await useFetch<Category[]>(`/api/getCategories`);
 </script>
 
 <template>
