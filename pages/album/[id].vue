@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Album } from '@spotify/web-api-ts-sdk';
+import type { Album, Track as TrackType } from '@spotify/web-api-ts-sdk';
 import { useRoute } from 'vue-router';
-import AlbumTrack from '~/components/AlbumTrack.vue';
 import ArtistLink from '~/components/Links/ArtistLink.vue';
+import Track from '~/components/Track.vue';
 
 const route = useRoute();
 const albumId = route.params.id;
@@ -20,6 +20,7 @@ const { data: album } = await useFetch<Album>(`/api/album/${albumId}`);
 					{{ album?.name }}
 				</h2>
 			</div>
+
 			<div class="flex flex-row items-center space-x-2">
 				<ArtistLink :artist="album?.artists[0]" />
 				<p class="text-muted-foreground">・</p>
@@ -31,13 +32,14 @@ const { data: album } = await useFetch<Album>(`/api/album/${albumId}`);
 					{{ album?.total_tracks }} tracks
 				</p>
 			</div>
+
 			<div>
 				<hr />
-				<ul>
-					<li v-for="(track, index) in album.tracks.items" :key="index">
-						<AlbumTrack :track="track" :trackIndex="index + 1" />
-					</li>
-				</ul>
+				<Track
+					v-for="(track, index) in album.tracks.items"
+					:key="index"
+					:track="track as TrackType"
+					:trackIndex="index + 1" />
 			</div>
 		</div>
 	</div>

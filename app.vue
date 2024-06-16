@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ConfigProvider } from 'radix-vue';
 import NavBar from './components/nav/NavBar.vue';
 import Sidebar from './components/nav/Sidebar.vue';
 
@@ -8,18 +9,22 @@ useHead({
 		class: 'dark',
 	},
 });
+
+const useIdFunction = () => useId();
 </script>
 
 <template>
-	<div class="relative flex">
-		<Sidebar class="sticky top-0 overflow-y-auto h-svh" />
-		<div class="w-full">
-			<NavBar class="sticky top-0" />
-			<main
-				class="flex-1 mb-2 mr-4 overflow-x-hidden overflow-y-auto border rounded-xl">
-				<NuxtPage />
-			</main>
+	<ConfigProvider :use-id="useIdFunction">
+		<div class="relative flex">
+			<Sidebar class="sticky top-0 overflow-y-auto h-svh" />
+			<div class="w-full">
+				<NavBar class="sticky top-0" />
+				<main
+					class="flex-1 mb-2 mr-4 overflow-x-hidden overflow-y-auto border rounded-xl">
+					<NuxtPage />
+				</main>
+			</div>
+			<!-- <PlayerBar class="mt-auto" /> -->
 		</div>
-		<!-- <PlayerBar class="mt-auto" /> -->
-	</div>
+	</ConfigProvider>
 </template>

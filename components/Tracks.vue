@@ -13,10 +13,11 @@ const props = defineProps<{
 <template>
 	<div v-if="tracks?.length" class="w-full">
 		<h2 class="mb-4 text-2xl font-bold">{{ title || '' }}</h2>
-		<ul>
-			<li v-for="(track, index) in tracks" :key="index">
-				<Track :track="track" :contextUri="props.contextUri" />
-			</li>
-		</ul>
+
+		<Track
+			v-for="(track, index) in tracks"
+			:key="index"
+			:track="track"
+			:contextUri="props.contextUri" />
 	</div>
 </template>

@@ -9,7 +9,6 @@ import { onMounted, ref } from 'vue';
 import ColorThief from 'colorthief';
 import { TabsIndicator } from 'radix-vue';
 import MediaList from '~/components/MediaList.vue';
-import Tracks from '~/components/Tracks.vue';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 
 const route = useRoute();
@@ -104,7 +103,11 @@ const currentTab = ref(tabs[0].value);
 		</Tabs>
 	</div>
 	<div class="p-4" v-if="currentTab === 'home'">
-		<Tracks v-if="topTracks?.tracks" :tracks="topTracks?.tracks" title="" />
+		<Track
+			v-for="(track, index) in topTracks.tracks"
+			:key="index"
+			:track="track"
+			:track-index="index + 1" />
 	</div>
 	<div class="p-4" v-if="currentTab === 'albums'">
 		<MediaList v-if="albums" :items="albums" title="" :multipleRows="true" />

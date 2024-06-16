@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import type { Track } from '@spotify/web-api-ts-sdk';
-import { defineProps, ref } from 'vue';
+import type { SimplifiedTrack, Track } from '@spotify/web-api-ts-sdk';
+import { computed, defineProps, ref } from 'vue';
 import { usePlayerStore } from '~/stores/playerStore';
 import { formatTime } from '~/utils/formatTime';
 import ArtistLink from './Links/ArtistLink.vue';
 
 const props = defineProps<{
-	track: Track;
+	track: Track | SimplifiedTrack;
 	hideArtistName?: Boolean;
 	trackIndex?: number;
+	hideImage?: Boolean;
 }>();
 
 const isHovered = ref(false);
@@ -28,6 +29,10 @@ const isPlaying = computed(
 );
 
 const artistsLinks = props.track.artists.slice(0, 2);
+
+function isTrack(obj: any): obj is Track {
+	return 'album' in obj;
+}
 </script>
 
 <template>
@@ -37,25 +42,29 @@ const artistsLinks = props.track.artists.slice(0, 2);
 		@mouseleave="toggleHover(false)"
 		@dblclick="playTrack">
 		<div class="flex items-center space-x-4">
-			<p v-if="trackIndex" class="px-2 text-gray-400 select-none">
-				{{ trackIndex }}
-			</p>
-			<NuxtLink
-				v-if="track?.album?.images[0]?.url"
-				class="relative cursor-pointer"
-				@click="playTrack">
-				<img
-					:src="track?.album?.images[0]?.url"
-					alt="Cover Art"
-					class="w-12 h-12 rounded" />
-				<div
-					v-if="isHovered"
-					class="absolute top-0 z-10 w-full h-full backdrop-brightness-50">
-					<Icon
-						:icon="`${isPlaying ? 'ic:round-pause' : 'flowbite:play-solid'}`"
-						class="absolute inset-0 m-auto text-4xl text-white" />
-				</div>
-			</NuxtLink>
+			<div v-if="trackIndex" class="flex w-10 justify-items-end">
+				<p class="w-6 text-right text-gray-400 select-none">
+					{{ trackIndex }}
+				</p>
+			</div>
+			<template v-if="isTrack(track) && !hideImage">
+				<NuxtLink
+					v-if="track.album.images[0]?.url"
+					class="relative cursor-pointer"
+					@click="playTrack">
+					<img
+						:src="track.album.images[0].url"
+						alt="Cover Art"
+						class="w-12 h-12 rounded" />
+					<div
+						v-if="isHovered"
+						class="absolute top-0 z-10 w-full h-full backdrop-brightness-50">
+						<Icon
+							:icon="`${isPlaying ? 'ic:round-pause' : 'flowbite:play-solid'}`"
+							class="absolute inset-0 m-auto text-4xl text-white" />
+					</div>
+				</NuxtLink>
+			</template>
 			<div>
 				<NuxtLink
 					class="hover:underline"
