@@ -30,8 +30,6 @@ const { data: album } = await useFetch<Album>(`/api/album/${albumId}`);
 				<p class="text-sm font-thin text-secondary-foreground">
 					{{ album?.total_tracks }} tracks
 				</p>
-				<p class="text-muted-foreground">・</p>
-				<p class="text-sm font-thin text-secondary-foreground"></p>
 			</div>
 			<div>
 				<hr />

@@ -6,7 +6,6 @@ const { data: categories } = await useFetch<Category[]>(`/api/getCategories`);
 
 <template>
 	<div class="p-4">
-		<h3 class="mb-4 text-2xl font-bold">Discover</h3>
 		<div
 			class="grid gap-4"
 			style="grid-template-columns: repeat(auto-fill, minmax(170px, 1fr))">

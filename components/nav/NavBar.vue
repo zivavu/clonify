@@ -3,7 +3,6 @@ import NavLink from './NavLink.vue';
 import SearchBar from './SearchBar.vue';
 
 const navLinks = [
-	{ icon: 'lucide:library', label: 'My Library', link: '/library' },
 	{ icon: 'fluent:home-32-filled', label: 'Home', link: '/' },
 	{ icon: 'solar:star-angle-outline', label: 'Discover', link: '/discover' },
 ];
@@ -26,7 +25,7 @@ const rightLinks = [
 				:to="item.link"
 				:icon="item.icon"
 				:label="item.label"
-				:class="index === 0 ? `w-64 mr-8` : 'pl-6 pr-20'" />
+				class="pl-6 pr-20" />
 			<SearchBar />
 		</div>
 		<div class="flex space-x-0 lg:space-x-4">

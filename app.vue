@@ -11,14 +11,14 @@ useHead({
 </script>
 
 <template>
-	<div class="relative flex flex-col min-h-screen">
-		<NavBar class="sticky top-0 h-16" />
-		<div class="flex">
-			<Sidebar class="sticky h-max top-16" />
-			<div
+	<div class="relative flex">
+		<Sidebar class="sticky top-0 overflow-y-auto h-svh" />
+		<div class="w-full">
+			<NavBar class="sticky top-0" />
+			<main
 				class="flex-1 mb-2 mr-4 overflow-x-hidden overflow-y-auto border rounded-xl">
 				<NuxtPage />
-			</div>
+			</main>
 		</div>
 		<!-- <PlayerBar class="mt-auto" /> -->
 	</div>

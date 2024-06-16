@@ -2,6 +2,7 @@
 import NavLink from './NavLink.vue';
 
 const sidebarItems = [
+	{ icon: 'lucide:library', label: 'My Library', link: '/library' },
 	{ icon: 'mage:pin', label: 'Pins', link: '/pins' },
 	{ icon: 'hugeicons:playlist-02', label: 'Playlists', link: '/playlist' },
 	{ icon: 'ph:heart', label: 'Liked songs', link: '/liked-songs' },
@@ -20,7 +21,7 @@ const sidebarItems = [
 
 <template>
 	<div class="text-white rounded-xl bg-background w-72">
-		<nav class="flex flex-col gap-4 p-4">
+		<nav class="flex flex-col gap-4 p-4 pt-2">
 			<NavLink
 				v-for="(item, index) in sidebarItems"
 				:key="index"
