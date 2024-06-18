@@ -12,7 +12,6 @@ const currentTime = ref(playerStore.currentTime);
 const currentTimeModel = computed(() => [Math.floor(currentTime.value)]);
 const trackDuration = computed(() => playerStore.duration);
 
-// Load and set up Spotify SDK
 const loadSpotifySDK = () => {
 	return new Promise<void>((resolve) => {
 		const script = document.createElement('script');
@@ -89,7 +88,7 @@ const seek = (event: Event) => {
 
 <template>
 	<div
-		class="sticky bottom-0 left-0 right-0 flex items-center justify-between p-4 text-white bg-gray-800 rounded-t-xl"
+		class="fixed bottom-0 left-0 right-0 flex items-center justify-between p-4 text-white bg-gray-800 rounded-t-xl"
 		v-if="isActive">
 		<div class="flex items-center gap-4">
 			<img
